@@ -1,4 +1,4 @@
-package com.or2go.mylibrary;
+package com.or2go.adapter;
 
 import android.content.Context;
 import android.text.Editable;
@@ -18,14 +18,14 @@ import com.or2go.core.OrderItem;
 
 import java.util.ArrayList;
 
-public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHolder>{
+public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHolder> {
 
     private Context mContext;
     private int layout;
     ArrayList<OrderItem> orderItemArrayList;
     RateOnClickListener rateOnClickListener;
 
-    public interface RateOnClickListener{
+    public interface RateOnClickListener {
         void onRatingChanged(Integer id, RatingBar ratingBar, float rating, boolean fromUser);
     }
 
@@ -76,7 +76,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         return orderItemArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textViewName, textViewDesc;
         EditText editTextFeedback;
