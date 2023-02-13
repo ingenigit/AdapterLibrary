@@ -5,4 +5,24 @@
     <item name="tv_product_desc" type="id" />
     <item name="et_feedback" type="id" />
     <item name="orderCompleteRatingBar" type="id" />
+    <item name="rlAddressHolder" type="id" />
+    <item name="tvLocationName" type="id" />
+    <item name="tvLocationAddress" type="id" />
+    <item name="addrname" type="id" />
+    <item name="address" type="id" />
+    <item name="landmark" type="id" />
+    <item name="place" type="id" />
+    <item name="pin" type="id" />
+    <item name="contact" type="id" />
+    <item name="btAddrEdit" type="id" />
+    <item name="btAddrDelete" type="id" />
+    <item name="selname" type="id" />
+    <item name="seladdr" type="id" />
+    <item name="selplace" type="id" />
+    <item name="catImg" type="id" />
+    <item name="catname" type="id" />
+    <item name="tvDiscountName" type="id" />
+    <item name="tvDiscountDesc" type="id" />
+    <item name="tvDiscountInfo" type="id" />
+    <item name="tvDiscountCond" type="id" />
 </resources>
