@@ -51,27 +51,19 @@ public class VendorSelectorAdapter extends RecyclerView.Adapter<VendorSelectorAd
             title = (TextView) view.findViewById(R.id.tvvendname);
             tag = (TextView) view.findViewById(R.id.tvvendtag);
             loc = (TextView) view.findViewById(R.id.tvvendloc);
-
             //rating= (RatingBar) view.findViewById(R.id.vendrating);
-
             logo = (ImageView ) view.findViewById(R.id.imgvendlogo);
-
             opensts = (ImageView)  view.findViewById(R.id.imgopensts);
             ratingval = (TextView) view.findViewById(R.id.tvratingval);
             //storests = (TextView) view.findViewById(R.id.tvopensts);
             discsts =  (TextView) view.findViewById(R.id.tvdiscsts);
             minord = (TextView) view.findViewById(R.id.tvminordval);
-
             mListener = listener;
             view.setOnClickListener(this);
-
         }
-
         @Override
         public void onClick(View view) {
-
             mListener.onClick(view, getAdapterPosition());
-
         }
     }
 
@@ -96,13 +88,11 @@ public class VendorSelectorAdapter extends RecyclerView.Adapter<VendorSelectorAd
 //                return mCache.get(url);
 //            }
 //        });
-
     }
 
     @Override
     public VSViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(mContext).inflate(layout, parent, false);
-
         return new VSViewHolder(itemView, mListener);
     }
 
@@ -172,13 +162,10 @@ public class VendorSelectorAdapter extends RecyclerView.Adapter<VendorSelectorAd
             //holder.storests.setBackgroundColor(0xFFFF0000);
             //holder.storests.setBackground(mContext.getResources().getDrawable(R.drawable.storeclosebg));
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-
         return mVendorList.size();
     }
 

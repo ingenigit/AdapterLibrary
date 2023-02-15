@@ -15,7 +15,6 @@ import com.or2go.core.SearchInfo;
 
 import java.util.ArrayList;
 
-
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.SRViewHolder>{
 
     private Context mContext;
@@ -25,15 +24,12 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     RecyclerViewClickListener mListener;
 
     public interface RecyclerViewClickListener {
-
         void onClick(View view, int position);
-
     }
 
     public class SRViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private RecyclerViewClickListener mListener;
-
         public TextView title, tag, loc;
         public ImageView descimg;
 
@@ -42,20 +38,14 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             super(view);
             title = (TextView) view.findViewById(R.id.tvsearchitemname);
             tag = (TextView) view.findViewById(R.id.tvsearchitemtype);
-
             descimg = (ImageView)  view.findViewById(R.id.imgsearchtype);
-
             mListener = listener;
             view.setOnClickListener(this);
-
         }
 
         @Override
-
         public void onClick(View view) {
-
             mListener.onClick(view, getAdapterPosition());
-
         }
     }
 
@@ -65,8 +55,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         this.mResultList = itemList;
         this.layout = layout;
         this.mListener = listener;
-
-
     }
 
     @Override
@@ -97,18 +85,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 holder.tag.setText("Cuisine");
             }
         }
-
     }
 
     @Override
     public int getItemCount() {
-
         return mResultList.size();
     }
 
     public void updateData(ArrayList<SearchInfo> datalist){
         mResultList = datalist;
-
         notifyDataSetChanged();
     }
 
