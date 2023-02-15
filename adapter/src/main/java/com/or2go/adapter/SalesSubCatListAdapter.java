@@ -1,6 +1,7 @@
 package com.or2go.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ public class SalesSubCatListAdapter extends RecyclerView.Adapter<SalesSubCatList
 
     @Override
     public void onBindViewHolder(@NonNull TypeListViewHolder holder, int position) {
-        holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.design_default_color_background));
+//        holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.design_default_color_background));
+        holder.cardView.setCardBackgroundColor(Color.WHITE);
         holder.textView.setText(list.get(position));
         if (mSelectedItem == position) {
             holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.dot_light_screen3));

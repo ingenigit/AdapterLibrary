@@ -82,4 +82,18 @@
     <item name="tvtag1" type="id" />
     <item name="tvtag2" type="id" />
     <item name="tvtag3" type="id" />
+    <item name="imgPager" type="id" />
+    <item name="martcatlabel" type="id" />
+    <item name="martcatimg" type="id" />
+    <item name="orderitemprice" type="id" />
+    <item name="product_Image" type="id" />
+    <item name="btcartitemedit" type="id" />
+    <item name="layoutshownotonstock" type="id" />
+    <item name="orderitemstksts" type="id" />
+    <item name="btremoveitemstk" type="id" />
+    <item name="tvsearchitemname" type="id" />
+    <item name="tvsearchitemtype" type="id" />
+    <item name="imgsearchtype" type="id" />
+    <item name="product_image" type="id" />
+    <item name="product_name" type="id" />
 </resources>

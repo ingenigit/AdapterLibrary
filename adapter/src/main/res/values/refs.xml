@@ -8,4 +8,8 @@
     <drawable name="ic_item_recomended" />
     <drawable name="ic_item_popular" />
     <drawable name="ic_item_discount" />
+    <drawable name="restaurant1" />
+    <drawable name="food2" />
+    <drawable name="ic_open_96" />
+    <drawable name="ic_closed_96" />
 </resources>

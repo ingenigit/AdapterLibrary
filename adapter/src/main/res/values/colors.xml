@@ -5,4 +5,6 @@
     <color name="tag1Color" />
     <color name="tag2Color" />
     <color name="tag3Color" />
+    <color name="white" />
+    <color name="blue" />
 </resources>
