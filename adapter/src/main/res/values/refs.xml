@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="blankitem" />
+    <drawable name="veg_24" />
+    <drawable name="non_veg_24" />
+    <drawable name="ic_item_new" />
+    <drawable name="ic_item_bestseller" />
+    <drawable name="ic_item_recomended" />
+    <drawable name="ic_item_popular" />
+    <drawable name="ic_item_discount" />
+</resources>
