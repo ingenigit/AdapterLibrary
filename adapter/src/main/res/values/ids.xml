@@ -96,4 +96,10 @@
     <item name="imgsearchtype" type="id" />
     <item name="product_image" type="id" />
     <item name="product_name" type="id" />
+    <item name="or2itemname" type="id" />
+    <item name="or2itemqnty" type="id" />
+    <item name="or2itemunit" type="id" />
+    <item name="or2itemprice" type="id" />
+    <item name="or2itemtotal" type="id" />
+    <item name="tv_order_status_action" type="id" />
 </resources>

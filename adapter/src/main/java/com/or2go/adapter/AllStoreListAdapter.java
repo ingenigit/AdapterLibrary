@@ -20,13 +20,14 @@ public class AllStoreListAdapter extends RecyclerView.Adapter<AllStoreListAdapte
     ArrayList<Or2GoStore> storelist;
     Context context;
     int layout;
-    getDistance getDistance;
+    String apikey;
     Location cLocation;
 
-    public AllStoreListAdapter(Location currentlocation, ArrayList<Or2GoStore> storelist, Context context, int layout) {
+    public AllStoreListAdapter(Location currentlocation, ArrayList<Or2GoStore> storelist, Context context, int layout, String APIKey) {
         this.storelist = storelist;
         this.context = context;
         this.layout = layout;
+        this.apikey = APIKey;
         this.cLocation = currentlocation;
     }
 
@@ -42,13 +43,16 @@ public class AllStoreListAdapter extends RecyclerView.Adapter<AllStoreListAdapte
         Or2GoStore store = storelist.get(position);
         holder.textViewname.setText(store.vName);
         String currentLocation = cLocation.getLatitude()+","+ cLocation.getLongitude();
-        getDistance = new getDistance() {
+        getDistance getDistance = new getDistance() {
             @Override
-            public void GetTotalDistance(String distance, String time) {
+            public void GetTotalDistance(String distance, Double getlat, Double getlon, String ftime, String stime) {
                 holder.textViewdistance.setText(distance);
             }
         };
-        TwoLocation twoLocation = new TwoLocation(context, store.geolocation, currentLocation, "", "", "false", "AIzaSyAnhTf79xLDcS0zj_cl_rjAVbx-cIBfwa8", "https://maps.googleapis.com/maps/api/distancematrix/json", "driving", getDistance);
+        TwoLocation twoLocation = new TwoLocation(context, store.geolocation, currentLocation,
+                "", "", "false",
+                apikey,
+                "https://maps.googleapis.com/maps/api/distancematrix/json", "driving", getDistance);
         twoLocation.run();
     }
 
