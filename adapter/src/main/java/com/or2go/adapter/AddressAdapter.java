@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.or2go.core.CustomerAddressModel;
@@ -33,17 +34,19 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     private int layout;
     private Context context;
     private ArrayList<CustomerAddressModel> customerAddressModelArrayList;
+    private CardView cardView;
 
     public interface PlaceAutoCompleteInterface{
         void onLocationClick(String name, String description, int position);
     }
 
-    public AddressAdapter(Context context, int layout, String key, String uri) {
+    public AddressAdapter(Context context, int layout, String key, String uri, CardView cardView) {
         this.layout = layout;
         this.context = context;
         this.key = key;
         this.uri = uri;
         this.PlaceAutoCompleteInterface = (PlaceAutoCompleteInterface) context;
+        this.cardView = cardView;
     }
 
     @NonNull
@@ -99,6 +102,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                     notifyDataSetChanged();
                 }
                 else{
+                    customerAddressModelArrayList = null;
+                    notifyDataSetChanged();
+                    cardView.setVisibility(View.GONE);
                     Toast.makeText(context, "no result from API.", Toast.LENGTH_SHORT).show();
                 }
             }
