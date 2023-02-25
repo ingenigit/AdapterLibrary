@@ -59,13 +59,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final CustomerAddressModel model = customerAddressModelArrayList.get(position);
+        int i = position;
+        final CustomerAddressModel model = customerAddressModelArrayList.get(i);
         holder.addressName.setText(model.placeName);
         holder.addressAddress.setText(model.placeAddress);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PlaceAutoCompleteInterface.onLocationClick(model.placeName, model.placeAddress, position);
+                PlaceAutoCompleteInterface.onLocationClick(model.placeName, model.placeAddress, i);
             }
         });
     }
