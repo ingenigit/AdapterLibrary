@@ -19,16 +19,16 @@ import java.util.Currency;
 
 public class MultiPackSelectorAdapter extends RecyclerView.Adapter<MultiPackSelectorAdapter.MPViewHolder>{
 
-    private ArrayList<ProductPriceInfo> mPriceList;
+    //private ArrayList<ProductPriceInfo> mPriceList;
     private ArrayList<ProductSKU> mSKUList;
     RecyclerViewItemClickListener recyclerViewItemClickListener;
     Currency currency = Currency.getInstance("INR");
     UnitManager mUnitMgr = new UnitManager();
     int layout;
 
-    public MultiPackSelectorAdapter(ArrayList<ProductPriceInfo> pricelist, ArrayList<ProductSKU> skulist, int layout, RecyclerViewItemClickListener listener)
+    public MultiPackSelectorAdapter(/*ArrayList<ProductPriceInfo> pricelist*/ ArrayList<ProductSKU> skulist, int layout, RecyclerViewItemClickListener listener)
     {
-        mPriceList = pricelist;
+        //mPriceList = pricelist;
         mSKUList = skulist;
         this.layout = layout;
         this.recyclerViewItemClickListener = listener;
@@ -43,7 +43,7 @@ public class MultiPackSelectorAdapter extends RecyclerView.Adapter<MultiPackSele
 
     @Override
     public void onBindViewHolder(@NonNull MPViewHolder asViewHolder, int i) {
-        ProductPriceInfo packInfo = mPriceList.get(i);
+        /*ProductPriceInfo packInfo = mPriceList.get(i);
         int skuid = packInfo.mSKUId;
         System.out.println("MultipackSelector Adapter : Product price id="+packInfo.mPriceId+" skuid="+skuid);
         System.out.println("MultipackSelector Adapter : SKU list size ="+mSKUList.size());
@@ -55,18 +55,21 @@ public class MultiPackSelectorAdapter extends RecyclerView.Adapter<MultiPackSele
             {
                 SKUInfo = mSKUList.get(j);
                 break;}
-        }
+        }*/
+
+        ProductSKU SKUInfo= mSKUList.get(i);
+
         ////ProductSKU SKUInfo = mSKUList.get(skuid);
         if (sendFloatValue(SKUInfo.mAmount).equals("0.0"))
-            asViewHolder.mUnit.setText(/*packInfo.mAmount.toString()*/Math.round(SKUInfo.mAmount)+ packInfo.getUnitName());
+            asViewHolder.mUnit.setText(/*packInfo.mAmount.toString()*/Math.round(SKUInfo.mAmount)+ mUnitMgr.getUnitName(SKUInfo.mUnit));
         else
-            asViewHolder.mUnit.setText(/*packInfo.mAmount.toString()*/SKUInfo.mAmount.toString()+ packInfo.getUnitName());
-        if (sendFloatValue(packInfo.mSalePrice).equals("0.0") || sendFloatValue(packInfo.mMaxPrice).equals("0.0")) {
-            asViewHolder.mPrice.setText(currency.getSymbol() + Math.round(packInfo.mSalePrice));
-            asViewHolder.mMaxPrice.setText(currency.getSymbol() + Math.round(packInfo.mMaxPrice));
+            asViewHolder.mUnit.setText(/*packInfo.mAmount.toString()*/SKUInfo.mAmount.toString()+ mUnitMgr.getUnitName(SKUInfo.mUnit));
+        if (sendFloatValue(SKUInfo.mPrice).equals("0.0") || sendFloatValue(SKUInfo.mMRP).equals("0.0")) {
+            asViewHolder.mPrice.setText(currency.getSymbol() + Math.round(SKUInfo.mPrice));
+            asViewHolder.mMaxPrice.setText(currency.getSymbol() + Math.round(SKUInfo.mMRP));
         }else{
-            asViewHolder.mPrice.setText(currency.getSymbol() + packInfo.mSalePrice);
-            asViewHolder.mMaxPrice.setText(currency.getSymbol() + packInfo.mMaxPrice);
+            asViewHolder.mPrice.setText(currency.getSymbol() + SKUInfo.mPrice);
+            asViewHolder.mMaxPrice.setText(currency.getSymbol() + SKUInfo.mMRP);
         }
 
         asViewHolder.mMaxPrice.setPaintFlags(asViewHolder.mMaxPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -82,7 +85,7 @@ public class MultiPackSelectorAdapter extends RecyclerView.Adapter<MultiPackSele
 
     @Override
     public int getItemCount() {
-        return mPriceList.size();
+        return mSKUList.size();
     }
 
     public  class MPViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -101,12 +104,12 @@ public class MultiPackSelectorAdapter extends RecyclerView.Adapter<MultiPackSele
 
         @Override
         public void onClick(View v) {
-            recyclerViewItemClickListener.onMultiPackSelectItem(mPriceList.get(this.getAdapterPosition()));
+            recyclerViewItemClickListener.onMultiPackSelectItem(mSKUList.get(this.getAdapterPosition()));
         }
     }
 
     public interface RecyclerViewItemClickListener {
-        void onMultiPackSelectItem(ProductPriceInfo data);
+        void onMultiPackSelectItem(ProductSKU data);
     }
 
 }

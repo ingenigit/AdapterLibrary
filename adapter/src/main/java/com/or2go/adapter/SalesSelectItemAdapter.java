@@ -22,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.button.MaterialButton;
 import com.or2go.core.ProductPriceInfo;
+import com.or2go.core.ProductSKU;
 import com.or2go.core.SalesSelectInfo;
 import com.or2go.core.UnitManager;
 
@@ -194,9 +195,10 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(holder.prodimg);
 
-        ArrayList<ProductPriceInfo> pricelist = oritem.getPriceList();
-        if (pricelist!= null) {
-            if (oritem.isMultiPack() && (pricelist.size() > 1)) {
+        ArrayList<ProductSKU> SKUList = oritem.getSKUList();
+        //ArrayList<ProductPriceInfo> pricelist = oritem.getPriceList();
+        if (SKUList!= null) {
+            if (oritem.isMultiPack() && (SKUList.size() > 1)) {
                 holder.multisel.setVisibility(View.VISIBLE);
                 //holder.unit.setVisibility(View.VISIBLE);
             } else {
@@ -210,16 +212,17 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             //holder.multisel.setVisibility(View.VISIBLE);
 
 
-            if (pricelist!=null) {
-                ProductPriceInfo packinfo = oritem.getSelectedPriceInfo();//pricelist.get(0);
+            if (SKUList!=null) {
+                //ProductPriceInfo packinfo = oritem.getSelectedPriceInfo();//pricelist.get(0);
+                ProductSKU skuinfo = oritem.getSelectedSKUInfo();
                 //System.out.println("Item info:"+oritem.getName()+" amount: "+packinfo.getPackAmount() + "  unit:"+packinfo.mUnit+"  uname:"+packinfo.getUnitName());
 
-                String smrp = packinfo.getMRPStr();
+                String smrp = getMRPStr(skuinfo);
 
-                if (sendFloatValue(String.valueOf(packinfo.getPrice())).equals("0.0"))
-                    holder.price.setText(currency.getSymbol() + Math.round(packinfo.getPrice()));
+                if (sendFloatValue(String.valueOf(skuinfo.mPrice)).equals("0.0"))
+                    holder.price.setText(currency.getSymbol() + Math.round(skuinfo.mPrice));
                 else
-                    holder.price.setText(currency.getSymbol() + packinfo.getPrice());
+                    holder.price.setText(currency.getSymbol() + skuinfo.mPrice);
                 if (smrp.isEmpty()) {
                     holder.mrp.setText("");
                     holder.disc.setText("");
@@ -230,7 +233,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                         holder.mrp.setText(currency.getSymbol() + Math.round(Float.parseFloat(smrp)));
                     else
                         holder.mrp.setText(currency.getSymbol() + smrp);
-                    Float discamnt= packinfo.getDiscountValue();
+                    Float discamnt= getDiscountValue(skuinfo);
                     if (discamnt != null) {
 
                         if (discamnt > 5) {
@@ -238,7 +241,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                             holder.disc.setVisibility(View.VISIBLE);
                         }
                         else {
-                            Float discrs = packinfo.mMaxPrice - packinfo.mSalePrice;
+                            Float discrs = skuinfo.mMRP - skuinfo.mPrice;
                             if (discrs >= 1)
                             {
                                 holder.disc.setText(currency.getSymbol() + df.format(discrs) + " Off");
@@ -259,18 +262,18 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
                 }
 
-                if ((packinfo.mUnit==GPOS_PROD_UNIT_PC) || (packinfo.mUnit==GPOS_PROD_UNIT_PLT))
+                if ((skuinfo.mUnit==GPOS_PROD_UNIT_PC) || (skuinfo.mUnit==GPOS_PROD_UNIT_PLT))
                     holder.unit.setVisibility(View.GONE);
                 else
                     holder.unit.setVisibility(View.VISIBLE);
-                if (sendFloatValue(packinfo.getAmount()).equals("0.0"))
-                    holder.unit.setText(Math.round(Float.parseFloat(packinfo.getAmount())) + packinfo.getUnitName());
+                if (sendFloatValue(skuinfo.mAmount.toString()).equals("0.0"))  ///???
+                    holder.unit.setText(Math.round(skuinfo.mAmount) + mUnitMgr.getUnitName(skuinfo.mUnit));
                 else
-                    holder.unit.setText(packinfo.getAmount() + packinfo.getUnitName());
-                oritem.mPriceSelectId = packinfo.mPriceId;
-                oritem.mSKUSelectId = packinfo.mSKUId;
+                    holder.unit.setText(skuinfo.mAmount.toString() + mUnitMgr.getUnitName(skuinfo.mUnit));
 
-                if(oritem.isInventoryControl() && (packinfo.mCurStk == 0)) {
+                oritem.mSKUSelectId = skuinfo.mSKUId;
+
+                if(oritem.isInventoryControl() /*&& (packinfo.mCurStk == 0)*/) {
                     holder.stocksts.setVisibility(View.VISIBLE);
                     holder.additem.setEnabled(false);
                 }
@@ -301,7 +304,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
         holder.mrp.setPaintFlags(holder.mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        Float fQnty= oritem.mapQuantity.get(oritem.mPriceSelectId);
+        Float fQnty= oritem.mapQuantity.get(oritem.mSKUSelectId);
         if (fQnty==null) fQnty=Float.parseFloat("0");
         //if (!oritem.isQntyEmpty())
         if (fQnty!=0){
@@ -422,6 +425,25 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         String rname = fname.replace(",", "_");
 
         return (rname);
+    }
+
+    public String getMRPStr(ProductSKU skuinfo)
+    {
+        if (skuinfo.mMRP == null) return "";
+        if (skuinfo.mMRP <= skuinfo.mPrice) return "";
+
+        return skuinfo.mMRP.toString();
+    }
+
+    public Float getDiscountValue(ProductSKU skuinfo)
+    {
+        if (skuinfo.mMRP == null) return null;
+        if (skuinfo.mMRP <= skuinfo.mPrice) return null;
+
+        //Float offAmnt = mMaxPrice-mSalePrice;
+        Float discPerc = ((skuinfo.mMRP-skuinfo.mPrice)/skuinfo.mMRP) *100;
+
+        return discPerc;
     }
 
     /*
