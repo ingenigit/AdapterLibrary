@@ -34,7 +34,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
     //int mSelectedItem;
     UnitManager mUnitManager= new UnitManager();
 
-    public SelectPackSizeAdapter(ArrayList<ProductPriceInfo> arrayList, ArrayList<ProductSKU> arrayList1, SalesSelectInfo oritem, int layout, RecyclerViewItemClickListener listener) {
+    public SelectPackSizeAdapter(/*ArrayList<ProductPriceInfo> arrayList,*/ ArrayList<ProductSKU> arrayList1, SalesSelectInfo oritem, int layout, RecyclerViewItemClickListener listener) {
         //this.priceInfos = arrayList;
         this.productSKUS = arrayList1;
         //this.mSelectedItem = selectedPosition;
