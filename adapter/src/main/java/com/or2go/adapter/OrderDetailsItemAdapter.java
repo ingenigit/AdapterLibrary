@@ -83,13 +83,13 @@ public class OrderDetailsItemAdapter extends RecyclerView.Adapter<OrderDetailsIt
             holder.itemtotal.setText(currency.getSymbol()+item.getItemTotal());
 
         Log.i("OrderDetailsItemAdapter" , "Order pack id="+item.getPriceId()+" skuid="+item.getSKUId());
-        ProductPriceInfo pkinfo = item.getPriceInfo();
+        //ProductPriceInfo pkinfo = item.getPriceInfo();
         ProductSKU skuinfo = item.getSKUInfo();
-        if (pkinfo !=null)
+        if (skuinfo !=null)
         {
             //pkinfo.dumpInfo();SKUInfo.mAmount.toString()+ packInfo.getUnitName()
             if (skuinfo != null)
-                holder.itemname.setText(item.getName() + " [" + Math.round(skuinfo.mAmount) + pkinfo.getUnitName() + "]");
+                holder.itemname.setText(item.getName() + " [" + Math.round(skuinfo.mAmount) + mUnitMgr.getUnitName(skuinfo.mUnit) + "]");
 //                holder.itemqnty.setText(skuinfo.mAmount.toString()+ pkinfo.getUnitName()+"  "+item.getPrice().toString()+" x " +item.getQnty());
             else
                 holder.itemname.setText(item.getName());

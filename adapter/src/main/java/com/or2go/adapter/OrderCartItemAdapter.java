@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.or2go.core.CartItem;
 import com.or2go.core.ProductPriceInfo;
+import com.or2go.core.ProductSKU;
 import com.or2go.core.UnitManager;
 
 import java.math.BigDecimal;
@@ -125,10 +126,10 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
                 .apply(options)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(holder.itemproImg);
-        ProductPriceInfo pkinfo = item.getPriceInfo();
-
+        //ProductPriceInfo pkinfo = item.getPriceInfo();
+        ProductSKU skuinfo = item.getSKUInfo();
         //if (item.isWholeItem())
-        if (pkinfo !=null)
+        if (skuinfo !=null)
         {
             //holder.itemquantity.setText(item.getQnty() + mUnitMgr.getUnitName(item.getOrderUnit()));
             ///pkinfo.dumpInfo();
@@ -142,7 +143,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
                 }else{
                     holder.itemquantity.setText(currency.getSymbol() + item.itemPrice + " x " + (int) Float.parseFloat(item.getQnty()));
                 }
-                holder.itemname.setText(item.getName() + " [" + pkinfo.mAmount.intValue() + mUnitMgr.getUnitName(pkinfo.mUnit) + "]");
+                holder.itemname.setText(item.getName() + " [" + skuinfo.mAmount.intValue() + mUnitMgr.getUnitName(skuinfo.mUnit) + "]");
             }
         }
         else

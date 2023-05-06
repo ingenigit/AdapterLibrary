@@ -16,13 +16,14 @@ import com.google.android.material.button.MaterialButton;
 import com.or2go.core.ProductPriceInfo;
 import com.or2go.core.ProductSKU;
 import com.or2go.core.SalesSelectInfo;
+import com.or2go.core.UnitManager;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 
 public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAdapter.ViewHolder> {
-    ArrayList<ProductPriceInfo> priceInfos;
+    //ArrayList<ProductPriceInfo> priceInfos;
     ArrayList<ProductSKU> productSKUS;
     SalesSelectInfo mOrderItemList;
     Currency currency = Currency.getInstance("INR");
@@ -31,9 +32,10 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
     private int layout;
     private final DecimalFormat decfor = new DecimalFormat("0.00");
     //int mSelectedItem;
+    UnitManager mUnitManager= new UnitManager();
 
     public SelectPackSizeAdapter(ArrayList<ProductPriceInfo> arrayList, ArrayList<ProductSKU> arrayList1, SalesSelectInfo oritem, int layout, RecyclerViewItemClickListener listener) {
-        this.priceInfos = arrayList;
+        //this.priceInfos = arrayList;
         this.productSKUS = arrayList1;
         //this.mSelectedItem = selectedPosition;
         this.mOrderItemList = oritem;
@@ -51,7 +53,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductPriceInfo packInfo = priceInfos.get(position);
+        //ProductPriceInfo packInfo = priceInfos.get(position);
         /*if (packInfo.mPriceId == mSelectedItem){
             holder.relativeLayout.setBackgroundResource(R.drawable.highlight_select_bg);
         }else{
@@ -59,8 +61,9 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         }*/
 //        holder.radioButton.setChecked(position == mSelectedItem);
 
-        Float fQnty= mOrderItemList.mapQuantity.get(packInfo.mPriceId);
-        System.out.println("SelectPackAdapter: priceid="+packInfo.mPriceId+"  Qnty="+fQnty);
+        ProductSKU skuinfo = productSKUS.get(position);
+        Float fQnty= mOrderItemList.mapQuantity.get(skuinfo.mSKUId);
+        System.out.println("SelectPackAdapter: priceid="+skuinfo.mSKUId+"  Qnty="+fQnty);
         //String totalQTY; //mOrderItemList.getViewQnty();
         if (fQnty==null)
             fQnty=Float.parseFloat("0");
@@ -81,7 +84,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         }
 
 
-        int skuid = packInfo.mSKUId;
+        /*int skuid = packInfo.mSKUId;
         ProductSKU SKUInfo = null;
         if (skuid!=0) {
             for (int j = 0; j < productSKUS.size(); j++) {
@@ -90,25 +93,26 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
                     break;
                 }
             }
-        }
-        holder.textViewSP.setText(currency.getSymbol() +packInfo.mSalePrice.toString());
-        if (SKUInfo !=null)
-            holder.textViewQty.setText(SKUInfo.mAmount.toString()+ packInfo.getUnitName());
+        }*/
+
+        holder.textViewSP.setText(currency.getSymbol() +skuinfo.mPrice.toString());
+        if (skuinfo !=null)
+            holder.textViewQty.setText(skuinfo.mAmount.toString()+ mUnitManager.getUnitName(skuinfo.mUnit));
         else
-            holder.textViewQty.setText(packInfo.mAmount.toString()+ packInfo.getUnitName());
-        String MRP = packInfo.mMaxPrice.toString();
+            holder.textViewQty.setText(skuinfo.mAmount.toString()+ mUnitManager.getUnitName(skuinfo.mUnit));
+        String MRP = skuinfo.mMRP.toString();
         if(MRP.isEmpty()){
             holder.textViewDic.setText("");
             holder.textViewDic.setVisibility(View.GONE);
         }else{
-            holder.textViewMRP.setText(currency.getSymbol() +packInfo.mMaxPrice.toString());
-            Float discamnt= packInfo.getDiscountValue();
+            holder.textViewMRP.setText(currency.getSymbol() +skuinfo.mMRP.toString());
+            Float discamnt= getDiscountValue(skuinfo);
             if (discamnt != null) {
                 if (discamnt > 5) {
                     holder.textViewDic.setText(df.format(discamnt) + "% Off");
                     holder.textViewDic.setVisibility(View.VISIBLE);
                 } else {
-                    Float discrs = packInfo.mMaxPrice - packInfo.mSalePrice;
+                    Float discrs = skuinfo.mMRP - skuinfo.mPrice;
                     if (discrs >= 1) {
                         holder.textViewDic.setText(currency.getSymbol() + df.format(discrs) + " Off");
                         holder.textViewDic.setVisibility(View.VISIBLE);
@@ -123,9 +127,9 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
             }
         }
 
-        float SP = packInfo.mSalePrice;
-        String QUnit = packInfo.getUnitName();
-        int aam = Math.round(packInfo.mAmount);
+        float SP = skuinfo.mPrice;
+        String QUnit = mUnitManager.getUnitName(skuinfo.mUnit);//packInfo.getUnitName();
+        int aam = Math.round(skuinfo.mAmount);
         System.out.println("sbs " + aam + QUnit);
         if (aam >= 1 && QUnit.equals("Kg")){
             float aak = (SP/aam);
@@ -155,7 +159,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
 
     @Override
     public int getItemCount() {
-        return priceInfos.size();
+        return productSKUS.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -186,7 +190,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
 
         @Override
         public void onClick(View v) {
-            recyclerViewItemClickListener.onMultiPackSelectItem(v, priceInfos.get(this.getAdapterPosition()), getAdapterPosition());
+            recyclerViewItemClickListener.onMultiPackSelectItem(v, productSKUS.get(this.getAdapterPosition()), getAdapterPosition());
         }
     }
 
@@ -198,6 +202,17 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
     }*/
 
     public interface RecyclerViewItemClickListener {
-        void onMultiPackSelectItem(View view, ProductPriceInfo data, int position);
+        void onMultiPackSelectItem(View view, ProductSKU data, int position);
+    }
+
+    public Float getDiscountValue(ProductSKU skuinfo)
+    {
+        if (skuinfo.mMRP == null) return null;
+        if (skuinfo.mMRP <= skuinfo.mPrice) return null;
+
+        //Float offAmnt = mMaxPrice-mSalePrice;
+        Float discPerc = ((skuinfo.mMRP-skuinfo.mPrice)/skuinfo.mMRP) *100;
+
+        return discPerc;
     }
 }
