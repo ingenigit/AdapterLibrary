@@ -273,7 +273,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
                 oritem.mSKUSelectId = skuinfo.mSKUId;
 
-                if(oritem.isInventoryControl() /*&& (packinfo.mCurStk == 0)*/) {
+                if(!oritem.isInventoryControl() /*&& (packinfo.mCurStk == 0)*/) {
                     holder.stocksts.setVisibility(View.VISIBLE);
                     holder.additem.setEnabled(false);
                 }
