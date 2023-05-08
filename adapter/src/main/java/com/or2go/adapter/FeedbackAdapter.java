@@ -46,13 +46,14 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OrderItem item = orderItemArrayList.get(position);
+        int i = position;
+        OrderItem item = orderItemArrayList.get(i);
         holder.textViewName.setText(item.getName());
         holder.textViewDesc.setText("");
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                rateOnClickListener.onRatingChanged(position, ratingBar, rating, fromUser);
+                rateOnClickListener.onRatingChanged(i, ratingBar, rating, fromUser);
             }
         });
         holder.editTextFeedback.addTextChangedListener(new TextWatcher() {

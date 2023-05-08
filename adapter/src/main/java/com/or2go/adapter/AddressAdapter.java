@@ -89,7 +89,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                 if (constraint != null){
                     customerAddressModelArrayList = autoComplete((String) constraint);
                     if (customerAddressModelArrayList != null){
-//                        Toast.makeText(context, "Lala "+customerAddressModelArrayList.size(), Toast.LENGTH_SHORT).show();
                         filterResults.values = customerAddressModelArrayList;
                         filterResults.count = customerAddressModelArrayList.size();
                     }

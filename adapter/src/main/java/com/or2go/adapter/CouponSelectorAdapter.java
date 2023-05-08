@@ -16,9 +16,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 
-//import static genipos.customer.Or2goConstValues.DISCOUNT_AMOUNT_TYPE_VALUE;
-
-
 public class CouponSelectorAdapter extends RecyclerView.Adapter<CouponSelectorAdapter.CSViewHolder>{
     private ArrayList<DiscountInfo> mDataset;
     RecyclerViewItemClickListener recyclerViewItemClickListener;

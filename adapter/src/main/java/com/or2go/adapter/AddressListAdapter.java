@@ -76,12 +76,9 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
     @Override
     public void onBindViewHolder(final AddressListViewHolder holder, int position) {
-        //Log.i("OrderListAdapter"," order position = "+position);
         final int selpos = position;
         DeliveryAddrInfo oritem = mAddressList.get(position);
-        //Integer orid = oritem.getId();
         holder.addrname.setText(oritem.getAddrName());
-        //System.out.println("OrderDetails : Order status="+oritem.oStatus+ "  text="+oritem.getStatusText());
         holder.address.setText(oritem.getAddress());
         holder.landmark.setText(oritem.getLandmark());
         holder.place.setText(oritem.getPlace());
