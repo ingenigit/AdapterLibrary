@@ -82,7 +82,7 @@ public class OrderDetailsItemAdapter extends RecyclerView.Adapter<OrderDetailsIt
         else
             holder.itemtotal.setText(currency.getSymbol()+item.getItemTotal());
 
-        Log.i("OrderDetailsItemAdapter" , "Order pack id="+item.getPriceId()+" skuid="+item.getSKUId());
+//        Log.i("OrderDetailsItemAdapter" , "Order pack id="+item.getPriceId()+" skuid="+item.getSKUId());
         //ProductPriceInfo pkinfo = item.getPriceInfo();
         ProductSKU skuinfo = item.getSKUInfo();
         if (skuinfo !=null)

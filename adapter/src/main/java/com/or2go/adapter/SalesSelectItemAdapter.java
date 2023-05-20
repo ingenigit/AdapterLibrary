@@ -58,7 +58,6 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         private RecyclerViewClickListener mListener;
 
         public TextView title, price, qnty, desc, unit, mrp, brand, disc;
-        public TextView stocksts;
         //Spinner multiunits;
         public ImageView multisel;
         public ImageView prodimg;//public NetworkImageView prodimg;
@@ -72,6 +71,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         public TextView[]  ttags = new TextView[3];//tag1, tag2, tag3;
 
         public CardView cardView;
+        public CardView cardViewStockOut;
 
         public SSViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
@@ -83,7 +83,6 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             unit = (TextView) view.findViewById(R.id.itempackunit);
             mrp = (TextView) view.findViewById(R.id.itemmaxprice);
             disc = (TextView) view.findViewById(R.id.itemdiscval);
-            stocksts = (TextView) view.findViewById(R.id.itemstocksts);
             //disc.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
 
             prodimg = (ImageView ) view.findViewById(R.id.gimgprodprop);//(NetworkImageView ) view.findViewById(R.id.imgprodprop);
@@ -93,6 +92,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             //thumbnail = (ImageView) view.findViewById(R.id.ic_itemdetail);
 
             cardView = (CardView) view.findViewById(R.id.card_view);
+            cardViewStockOut = (CardView) view.findViewById(R.id.cardView_OutStock);
             //itemedit = (ImageView)  view.findViewById(R.id.itemedit);
             addbtn = (MaterialButton) view.findViewById(R.id.itemadd) ;
             decbtn = (MaterialButton) view.findViewById(R.id.itemdec) ;
@@ -274,11 +274,11 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                 oritem.mSKUSelectId = skuinfo.mSKUId;
 
                 if(!oritem.isInventoryControl() /*&& (packinfo.mCurStk == 0)*/) {
-                    holder.stocksts.setVisibility(View.VISIBLE);
+                    holder.cardViewStockOut.setVisibility(View.VISIBLE);
                     holder.additem.setEnabled(false);
                 }
                 else
-                    holder.stocksts.setVisibility(View.GONE);
+                    holder.cardViewStockOut.setVisibility(View.GONE);
 
             }
             else
@@ -324,8 +324,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             holder.additem.setVisibility(View.VISIBLE);
         }
 
-        if(!oritem.isInventoryControl())
-            holder.stocksts.setVisibility(View.GONE);
+//        if(!oritem.isInventoryControl())
+//            holder.stocksts.setVisibility(View.GONE);
 
         if (oritem.mFoodType == OR2GO_PRODUCT_TAG_FOOD_VEG)
         {holder.foodtag.setVisibility(View.VISIBLE);
