@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +37,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
     private Context mContext;
     //private List<Album> albumList;
     ArrayList<SalesSelectInfo> mOrderItemList;
-
+    String vendorId;
     RecyclerViewClickListener mListener;
     private int layout;
     private String OR2GO_SERVER;
@@ -134,12 +135,13 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         }
     }
 
-    public SalesSelectItemAdapter(Context context, String server, ArrayList<SalesSelectInfo> itemList, int layout, RecyclerViewClickListener listener)
+    public SalesSelectItemAdapter(Context context, String server, String vendorId, ArrayList<SalesSelectInfo> itemList, int layout, RecyclerViewClickListener listener)
     {
         this.mContext = context;
         this.mOrderItemList = itemList;
         this.layout = layout;
         this.OR2GO_SERVER = server;
+        this.vendorId = vendorId;
         this.mListener = listener;
 
     }
@@ -182,18 +184,31 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
         //holder.prodimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...
         //holder.prodimg.setImageUrl(BuildConfig.OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg", mImageLoader); //ImgController
-
+        System.out.println("Radha Radha" + oritem.getProduct().getImagepath());
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.blankitem)
                 .error(R.drawable.blankitem);
 
-        Glide.with(mContext)
-                .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg")
-                .apply(options)
-                //.override(200, 200) // resizing
-                //.fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(holder.prodimg);
+        if(oritem.getProduct().getImagepath() == 0){
+            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName()) + ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName()) + ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.prodimg);
+        }else if (oritem.getProduct().getImagepath() == 1){
+            System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.prodimg);
+        }else
+            Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
 
         ArrayList<ProductSKU> SKUList = oritem.getSKUList();
         //ArrayList<ProductPriceInfo> pricelist = oritem.getPriceList();
