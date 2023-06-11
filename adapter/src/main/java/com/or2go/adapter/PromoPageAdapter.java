@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
     private LayoutInflater mInflater;
     private ArrayList<SalesSelectInfo> listTagInfo;
     private int layout;
+    private String vendorId;
     RecyclerViewClickListener mListener;
     private String OR2GO_SERVER;
 
@@ -29,12 +31,13 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
         void onItemClick(View view, int position);
     }
 
-    public PromoPageAdapter(Context context, String server, ArrayList<SalesSelectInfo> taglist, int layout, RecyclerViewClickListener listener) {
+    public PromoPageAdapter(Context context, String server, String vendorId, ArrayList<SalesSelectInfo> taglist, int layout, RecyclerViewClickListener listener) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.listTagInfo = taglist;
         this.layout = layout;
         this.OR2GO_SERVER = server;
+        this.vendorId = vendorId;
         this.mListener = listener;
 
     }
@@ -54,20 +57,26 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
                 .placeholder(R.drawable.blankitem)
                 .error(R.drawable.blankitem);
 
-        Glide.with(mContext)
-                .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(taginfo.getBrand(), taginfo.getName())+".jpg")
-                .apply(options)
-                //.override(200, 200) // resizing
-                //.fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(holder.productimg);
-        Glide.with(mContext)
-                .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(taginfo.getBrand(), taginfo.getName())+".jpg")
-                .apply(options)
-                //.override(200, 200) // resizing
-                //.fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(holder.productbgimg);
+        if(taginfo.getProduct().getImagepath() == 0){
+            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(taginfo.getBrand(), taginfo.getName()) + ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(taginfo.getBrand(), taginfo.getName()) + ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.productimg);
+        }else if (taginfo.getProduct().getImagepath() == 1){
+            System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+taginfo.getId()+ ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+taginfo.getId()+ ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.productimg);
+        }else
+            Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
         holder.productname.setText(taginfo.getName());
         holder.productdesc.setText(taginfo.getDesc());
     }

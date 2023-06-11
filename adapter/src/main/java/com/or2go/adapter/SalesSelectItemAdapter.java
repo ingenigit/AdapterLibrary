@@ -184,7 +184,6 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
         //holder.prodimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...
         //holder.prodimg.setImageUrl(BuildConfig.OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg", mImageLoader); //ImgController
-        System.out.println("Radha Radha" + oritem.getProduct().getImagepath());
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.blankitem)
                 .error(R.drawable.blankitem);
