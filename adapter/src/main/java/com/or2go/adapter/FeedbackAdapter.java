@@ -26,7 +26,8 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     private Context mContext;
     private int layout;
-    private String OR2GO_SERVER, vendorId;
+    private String OR2GO_SERVER;
+    private String vendorId;
     ArrayList<OrderItem> orderItemArrayList;
     RateOnClickListener rateOnClickListener;
 
@@ -66,8 +67,6 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
             Glide.with(mContext)
                     .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg")
                     .apply(options)
-                    //.override(200, 200) // resizing
-                    //.fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(holder.imageView);
         }else if (item.getImagePath() == 1){
@@ -75,8 +74,6 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
             Glide.with(mContext)
                     .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+item.getId()+ ".jpg")
                     .apply(options)
-                    //.override(200, 200) // resizing
-                    //.fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(holder.imageView);
         }else
