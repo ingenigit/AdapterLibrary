@@ -10,10 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.or2go.core.OrderItem;
 
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
 
     private Context mContext;
     private int layout;
+    private String OR2GO_SERVER, vendorId;
     ArrayList<OrderItem> orderItemArrayList;
     RateOnClickListener rateOnClickListener;
 
@@ -29,10 +34,12 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         void onRatingChanged(Integer id, RatingBar ratingBar, float rating, boolean fromUser);
     }
 
-    public FeedbackAdapter(Context mContext, ArrayList<OrderItem> orderItemArrayList, int layout, RateOnClickListener rateOnClickListener) {
+    public FeedbackAdapter(Context mContext,String server, String vendorId, ArrayList<OrderItem> orderItemArrayList, int layout, RateOnClickListener rateOnClickListener) {
         this.mContext = mContext;
         this.orderItemArrayList = orderItemArrayList;
         this.layout = layout;
+        this.OR2GO_SERVER = server;
+        this.vendorId = vendorId;
         this.rateOnClickListener = rateOnClickListener;
     }
 
@@ -50,6 +57,30 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         OrderItem item = orderItemArrayList.get(i);
         holder.textViewName.setText(item.getName());
         holder.textViewDesc.setText("");
+        holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.blankitem)
+                .error(R.drawable.blankitem);
+        if(item.getImagePath() == 0){
+            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.imageView);
+        }else if (item.getImagePath() == 1){
+            System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+item.getId()+ ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+item.getId()+ ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.imageView);
+        }else
+            Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -70,6 +101,27 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
                 item.setFeebackText(s.toString());
             }
         });
+    }
+
+    private String prodNameToImagePath(String brand, String name) {
+        String lname = name.toLowerCase();
+        String sname;
+
+        if (brand != null && (!brand.isEmpty()) && (!brand.equals("null"))) {
+            String lbrand = brand.toLowerCase();
+            if (lname.contains(lbrand))
+                sname=lname;
+            else
+                sname = lbrand + "_" + lname;
+        }
+        else
+            sname = lname;
+
+        String bname = sname.replace(" ", "_");
+        String fname = bname.replace("&", "_");
+        String rname = fname.replace(",", "_");
+
+        return (rname);
     }
 
     @Override
