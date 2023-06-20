@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Currency;
 
 public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdapter.CartItemViewHolder>{
-
     private Context mContext;
     //private List<Album> albumList;
     ArrayList<CartItem> mItemList;
@@ -33,6 +33,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
     int layout;
     String OR2GO_SERVER;
     RecyclerViewClickListener mListener;
+    String StoreID;
 
     //private RequestQueue mRequestQueue;
     //ImageLoader mImageLoader;
@@ -40,6 +41,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
     public interface RecyclerViewClickListener {
 
         void onClick(View view, int position);
+//        void onLongClick(View view, int position);
 
     }
 
@@ -55,8 +57,12 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
         //ImageView itemdec;
         ImageView itemdel;
         LinearLayout linearLayout;
-//        Button    itemstkremove;
+        //        Button    itemstkremove;
         ImageView itemstkremove;
+        //added
+//        CardView cardView;
+//        Button linearLayoutCartView;
+        //end
 
         public CartItemViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
@@ -71,12 +77,15 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
             itemstksts = (TextView) view.findViewById(R.id.orderitemstksts);
 //            itemstkremove= (Button)  view.findViewById(R.id.btremoveitemstk);
             itemstkremove= (ImageView)  view.findViewById(R.id.btremoveitemstk);
-
+            //added
+//            cardView = (CardView) view.findViewById(R.id.vendor_info_cardview);
+//            linearLayoutCartView = (Button) view.findViewById(R.id.buttonvirw);
+            //end
             mListener = listener;
             view.setOnClickListener(this);
             itemdel.setOnClickListener(this);
             itemstkremove.setOnClickListener(this);
-
+//            cardView.setOnLongClickListener(this);
         }
 
         @Override
@@ -84,13 +93,20 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
         public void onClick(View view) {
             mListener.onClick(view, getAdapterPosition());
         }
+
+//        @Override
+//        public boolean onLongClick(View v) {
+//            mListener.onLongClick(v, getAdapterPosition());
+//            return true;
+//        }
     }
 
-    public OrderCartItemAdapter(Context context, String server, ArrayList<CartItem> itemList, int layout, RecyclerViewClickListener listener)
+    public OrderCartItemAdapter(Context context, String server, String storeId, ArrayList<CartItem> itemList, int layout, RecyclerViewClickListener listener)
     {
         this.mContext = context;
         this.mItemList = itemList;
         this.OR2GO_SERVER = server;
+        this.StoreID = storeId;
         this.layout = layout;
         this.mListener = listener;
 
@@ -111,21 +127,41 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
         //holder.itemimage.setImageBitmap(item.getImage());
         //holder.itemimage.setImageBitmap(Bitmap.createScaledBitmap(item.getImage(), 96, 96, false));
 
+        //added
+//        holder.cardView.clearAnimation();
+//        holder.linearLayoutCartView.clearAnimation();
+//        Animation animation = AnimationUtils.loadAnimation(mContext,
+//                (position == 0) ? R.anim.right_left_bounce: R.anim.no_animation);
+//        animation.setRepeatCount(0);
+//        holder.cardView.setAnimation(animation);
+//        holder.linearLayoutCartView.setAnimation(animation);
+        //end
         if(sendFloatValue(item.getItemTotal()).equals("0.0"))
             holder.itemprice.setText(currency.getSymbol()+(int) item.getItemTotal());
         else
             holder.itemprice.setText(currency.getSymbol() + item.getItemTotal());
 
         //load image
+        holder.itemproImg.setScaleType(ImageView.ScaleType.FIT_XY);
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.blankitem)
                 .error(R.drawable.blankitem);
-
-        Glide.with(mContext)
-                .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName())+".jpg")
-                .apply(options)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(holder.itemproImg);
+        if(item.getImagePath() == 0){
+            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg")
+                    .apply(options)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.itemproImg);
+        }else if (item.getImagePath() == 1){
+            System.out.println(OR2GO_SERVER+"vendorprodimage/"+StoreID+"/"+item.getId()+ ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"vendorprodimage/"+StoreID+"/"+item.getId()+ ".jpg")
+                    .apply(options)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.itemproImg);
+        }else
+            Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
         //ProductPriceInfo pkinfo = item.getPriceInfo();
         ProductSKU skuinfo = item.getSKUInfo();
         //if (item.isWholeItem())

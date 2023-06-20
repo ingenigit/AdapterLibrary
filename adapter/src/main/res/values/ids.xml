@@ -103,4 +103,8 @@
     <item name="or2itemprice" type="id" />
     <item name="or2itemtotal" type="id" />
     <item name="tv_order_status_action" type="id" />
+    <item name="IncDecQty" type="id" />
+    <item name="cardViewItemAdd" type="id" />
+    <item name="cardViewItemDec" type="id" />
+    <item name="cardViewAddItem" type="id" />
 </resources>

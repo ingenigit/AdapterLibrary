@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,8 +64,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         public ImageView multisel;
         public ImageView prodimg;//public NetworkImageView prodimg;
         public ImageView itemedit;
-        public MaterialButton addbtn, decbtn, editbtn;
-        public Button additem;
+        CardView cardViewAdd, cardViewInc, cardViewDec;
+        LinearLayout linearLayoutIncDecHolder;
 
         //Tags
         public ImageView foodtag;//, vtag2, vtag3, vtag4, vtag5;
@@ -95,10 +96,10 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             cardView = (CardView) view.findViewById(R.id.card_view);
             cardViewStockOut = (CardView) view.findViewById(R.id.cardView_OutStock);
             //itemedit = (ImageView)  view.findViewById(R.id.itemedit);
-            addbtn = (MaterialButton) view.findViewById(R.id.itemadd) ;
-            decbtn = (MaterialButton) view.findViewById(R.id.itemdec) ;
-
-            additem = (Button) view.findViewById(R.id.btAddItem) ;
+            cardViewInc = (CardView) view.findViewById(R.id.cardViewItemAdd) ;
+            cardViewDec = (CardView) view.findViewById(R.id.cardViewItemDec) ;
+            linearLayoutIncDecHolder = (LinearLayout) view.findViewById(R.id.IncDecQty);
+            cardViewAdd = (CardView) view.findViewById(R.id.cardViewAddItem) ;
 
             foodtag = (ImageView) view.findViewById(R.id.tagimg1) ;
             vtags[0] = (ImageView) view.findViewById(R.id.tagimg2) ;
@@ -119,11 +120,11 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             //thumbnail.setOnClickListener(this);
 
             //itemedit.setOnClickListener(this);
-            addbtn.setOnClickListener(this);
-            decbtn.setOnClickListener(this);
+            cardViewInc.setOnClickListener(this);
+            cardViewDec.setOnClickListener(this);
             multisel.setOnClickListener(this);
             prodimg.setOnClickListener(this);
-            additem.setOnClickListener(this);
+            cardViewAdd.setOnClickListener(this);
         }
 
         @Override
@@ -323,7 +324,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         //if (!oritem.isQntyEmpty())
         if (fQnty!=0){
 
-            holder.additem.setVisibility(View.GONE);
+            holder.cardViewAdd.setVisibility(View.GONE);
+            holder.linearLayoutIncDecHolder.setVisibility(View.VISIBLE);
             holder.qnty.setText(String.valueOf(Math.round(fQnty)));//oritem.getViewQnty());
             /*
             if (oritem.getPriceUnit() == GPOS_PROD_UNIT_PC)
@@ -335,7 +337,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         }
         else {
             holder.qnty.setText("");
-            holder.additem.setVisibility(View.VISIBLE);
+            holder.cardViewAdd.setVisibility(View.VISIBLE);
+            holder.linearLayoutIncDecHolder.setVisibility(View.GONE);
         }
 
 //        if(!oritem.isInventoryControl())
