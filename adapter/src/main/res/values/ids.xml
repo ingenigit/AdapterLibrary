@@ -71,7 +71,6 @@
     <item name="gimgprodprop" type="id" />
     <item name="imgmultipacksel" type="id" />
     <item name="card_view" type="id" />
-    <item name="cardView_OutStock" type="id" />
     <item name="itemadd" type="id" />
     <item name="btAddItem" type="id" />
     <item name="itemdec" type="id" />
@@ -107,4 +106,5 @@
     <item name="cardViewItemAdd" type="id" />
     <item name="cardViewItemDec" type="id" />
     <item name="cardViewAddItem" type="id" />
+    <item name="outofstockLayout" type="id" />
 </resources>

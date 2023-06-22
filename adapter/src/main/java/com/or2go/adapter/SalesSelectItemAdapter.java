@@ -73,7 +73,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         public TextView[]  ttags = new TextView[3];//tag1, tag2, tag3;
 
         public CardView cardView;
-        public CardView cardViewStockOut;
+        LinearLayout linearLayoutOutofStock;
 
         public SSViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
@@ -94,7 +94,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             //thumbnail = (ImageView) view.findViewById(R.id.ic_itemdetail);
 
             cardView = (CardView) view.findViewById(R.id.card_view);
-            cardViewStockOut = (CardView) view.findViewById(R.id.cardView_OutStock);
+            linearLayoutOutofStock = (LinearLayout) view.findViewById(R.id.outofstockLayout);
             //itemedit = (ImageView)  view.findViewById(R.id.itemedit);
             cardViewInc = (CardView) view.findViewById(R.id.cardViewItemAdd) ;
             cardViewDec = (CardView) view.findViewById(R.id.cardViewItemDec) ;
@@ -288,12 +288,13 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
                 oritem.mSKUSelectId = skuinfo.mSKUId;
 
-//                if(!oritem.isInventoryControl() /*&& (packinfo.mCurStk == 0)*/) {
-//                    holder.cardViewStockOut.setVisibility(View.VISIBLE);
-//                    holder.additem.setEnabled(false);
+//                if(oritem.isInventoryControl() && (skuinfo.mStockStatus == 0)) {
+//                    holder.linearLayoutOutofStock.setVisibility(View.VISIBLE);
+//                    holder.cardViewAdd.setEnabled(false);
+//                    holder.prodimg.setEnabled(false);
 //                }
 //                else
-//                    holder.cardViewStockOut.setVisibility(View.GONE);
+                    holder.linearLayoutOutofStock.setVisibility(View.GONE);
 
             }
             else

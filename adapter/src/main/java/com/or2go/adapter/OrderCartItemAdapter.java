@@ -195,12 +195,12 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
             }
             else if (stkval < item.getQntyVal()) {
                 holder.linearLayout.setVisibility(View.VISIBLE);
-                holder.itemstksts.setText("Item Order Quantity Unavailbale ");
+                holder.itemstksts.setText("Only "+ (int) Math.round(stkval) +" "+ mUnitMgr.getUnitName(skuinfo.mUnit) +" available.");
                 holder.itemstkremove.setVisibility(View.VISIBLE);
             }
             else {
                 holder.linearLayout.setVisibility(View.GONE);
-                holder.itemstksts.setText("");
+                holder.itemstksts.setText(stkval.toString());
                 holder.itemstkremove.setVisibility(View.GONE);
             }
         }
