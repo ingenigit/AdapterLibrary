@@ -67,23 +67,24 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public void onBindViewHolder(final SRViewHolder holder, int position) {
         final int selpos = position;
         SearchInfo oritem = mResultList.get(position);
-
         holder.title.setText(oritem.name);
         //holder.tag.setText(oritem.type);
-
-        if (oritem.searchtype==OR2GO_SEARCH_PRODUCT_NAME)
+        if (oritem.searchtype==null)
+            holder.tag.setText(oritem.store);
+        else if (oritem.searchtype==OR2GO_SEARCH_PRODUCT_NAME)
         {
             holder.tag.setText("");
-            holder.descimg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.blankitem));
+            holder.tag.setVisibility(View.GONE);
         }
         else {
-            if (oritem.type.equals("Vendor") || (oritem.type.equals("Store"))) {
-                holder.tag.setText("Restaurant");
-                holder.descimg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.restaurant1));
-            } else {
-                holder.descimg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.food2));
-                holder.tag.setText("Cuisine");
-            }
+            holder.tag.setText(oritem.store);
+//            if (oritem.type.equals("Vendor") || (oritem.type.equals("Store"))) {
+//                holder.tag.setText("Restaurant");
+//                holder.descimg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.restaurant1));
+//            } else {
+//                holder.descimg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.food2));
+//                holder.tag.setText("Cuisine");
+//            }
         }
     }
 
