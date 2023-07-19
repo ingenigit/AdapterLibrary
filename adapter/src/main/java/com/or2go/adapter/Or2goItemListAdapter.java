@@ -47,14 +47,14 @@ public class Or2goItemListAdapter extends RecyclerView.Adapter<Or2goItemListAdap
             holder.itemtotal.setText(currency.getSymbol()+(int) item.getItemTotal());//item.getPrice());
         else
             holder.itemtotal.setText(currency.getSymbol()+item.getItemTotal());//item.getPrice());
-        if (item.isWholeItem())
-            holder.itemqnty.setText(item.getQnty());
-        else
+//        if (item.isWholeItem())
+//            holder.itemqnty.setText(item.getQnty());
+//        else
 //            holder.itemqnty.setText(item.getQnty()+mUnitMgr.getUnitName(item.getOrderUnit()));
-            if (sendFloatValue(item.getPrice()).equals("0.0"))
-                holder.itemqnty.setText( currency.getSymbol() + Math.round(item.getPrice()) + " * " + Math.round(Float.parseFloat(item.getQnty())));
-            else
-                holder.itemqnty.setText( currency.getSymbol() + item.getPrice() + " * " + Math.round(Float.parseFloat(item.getQnty())));
+        if (sendFloatValue(item.getPrice()).equals("0.0"))
+            holder.itemqnty.setText( currency.getSymbol() + Math.round(item.getPrice()) + " * " + Math.round(Float.parseFloat(item.getQnty())));
+        else
+            holder.itemqnty.setText( currency.getSymbol() + item.getPrice() + " * " + Math.round(Float.parseFloat(item.getQnty())));
     }
 
     public String sendFloatValue(Float value){
