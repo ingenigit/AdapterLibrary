@@ -58,26 +58,6 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         OrderItem item = orderItemArrayList.get(i);
         holder.textViewName.setText(item.getName());
         holder.textViewDesc.setText("");
-        holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//        RequestOptions options = new RequestOptions()
-//                .placeholder(R.drawable.blankitem)
-//                .error(R.drawable.blankitem);
-//        if(item.getImagePath() == 0){
-//            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg");
-//            Glide.with(mContext)
-//                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg")
-//                    .apply(options)
-//                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-//                    .into(holder.imageView);
-//        }else if (item.getImagePath() == 1){
-//            System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+item.getId()+ ".jpg");
-//            Glide.with(mContext)
-//                    .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+item.getId()+ ".jpg")
-//                    .apply(options)
-//                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-//                    .into(holder.imageView);
-//        }else
-//            Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
         holder.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -100,41 +80,18 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         });
     }
 
-    private String prodNameToImagePath(String brand, String name) {
-        String lname = name.toLowerCase();
-        String sname;
-
-        if (brand != null && (!brand.isEmpty()) && (!brand.equals("null"))) {
-            String lbrand = brand.toLowerCase();
-            if (lname.contains(lbrand))
-                sname=lname;
-            else
-                sname = lbrand + "_" + lname;
-        }
-        else
-            sname = lname;
-
-        String bname = sname.replace(" ", "_");
-        String fname = bname.replace("&", "_");
-        String rname = fname.replace(",", "_");
-
-        return (rname);
-    }
-
     @Override
     public int getItemCount() {
         return orderItemArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
         TextView textViewName, textViewDesc;
         EditText editTextFeedback;
         RatingBar ratingBar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.iv_product_image);
             textViewName = (TextView) itemView.findViewById(R.id.tv_product_name);
             textViewDesc = (TextView) itemView.findViewById(R.id.tv_product_desc);
             editTextFeedback = (EditText) itemView.findViewById(R.id.et_feedback);
