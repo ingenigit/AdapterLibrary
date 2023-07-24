@@ -30,7 +30,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
     public class AddressListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private RecyclerViewClickListener mListener;
-        public TextView addrname, address, landmark, place, pin, contact;
+        public TextView addrname, address, locality, landmark, place, pin, contact;
         public ImageView orderckout, itemedit;
         public Button btEdit, btDelete;
 
@@ -38,6 +38,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
             super(view);
             addrname = (TextView) view.findViewById(R.id.addrname);
             address = (TextView) view.findViewById(R.id.address);
+            locality = (TextView) view.findViewById(R.id.locality);
             landmark = (TextView) view.findViewById(R.id.landmark);
             place = (TextView) view.findViewById(R.id.place);
             contact = (TextView) view.findViewById(R.id.contact);
@@ -80,6 +81,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
         DeliveryAddrInfo oritem = mAddressList.get(position);
         holder.addrname.setText(oritem.getAddrName());
         holder.address.setText(oritem.getAddress());
+        holder.locality.setText(oritem.getLocality());
         holder.landmark.setText(oritem.getLandmark());
         holder.place.setText(oritem.getPlace());
         holder.contact.setText(oritem.getAltcontact());

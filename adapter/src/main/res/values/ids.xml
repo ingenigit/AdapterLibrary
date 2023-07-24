@@ -107,4 +107,5 @@
     <item name="cardViewItemDec" type="id" />
     <item name="cardViewAddItem" type="id" />
     <item name="outofstockLayout" type="id" />
+    <item name="locality" type="id" />
 </resources>
