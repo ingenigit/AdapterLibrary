@@ -34,6 +34,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
     String OR2GO_SERVER;
     RecyclerViewClickListener mListener;
     String StoreID;
+    int InvControl;
 
     //private RequestQueue mRequestQueue;
     //ImageLoader mImageLoader;
@@ -101,12 +102,13 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
 //        }
     }
 
-    public OrderCartItemAdapter(Context context, String server, String storeId, ArrayList<CartItem> itemList, int layout, RecyclerViewClickListener listener)
+    public OrderCartItemAdapter(Context context, String server, String storeId, Integer invControl, ArrayList<CartItem> itemList, int layout, RecyclerViewClickListener listener)
     {
         this.mContext = context;
         this.mItemList = itemList;
         this.OR2GO_SERVER = server;
         this.StoreID = storeId;
+        this.InvControl = invControl;
         this.layout = layout;
         this.mListener = listener;
 
@@ -184,11 +186,10 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
         }
         else
             holder.itemquantity.setText(item.getQnty());
-
-        if ((item.getInvControl()>0) && (item.getCurStock() >= 0))
+        if ((InvControl > 0))
         {
             Float stkval = item.getCurStock();
-            if (stkval==0) {
+            if (stkval == 0) {
                 holder.linearLayout.setVisibility(View.VISIBLE);
                 holder.itemstksts.setText("Item Out Of Stock");
                 holder.itemstkremove.setVisibility(View.VISIBLE);

@@ -17,30 +17,43 @@ import com.bumptech.glide.request.RequestOptions;
 import com.or2go.core.SalesSelectInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.ViewHolder> {
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<SalesSelectInfo> listTagInfo;
+    //    private ArrayList<SalesSelectInfo> listTagInfo;
+    HashMap<String, SalesSelectInfo> storeFavList;
     private int layout;
     private String vendorId;
     RecyclerViewClickListener mListener;
     private String OR2GO_SERVER;
 
+
+
     public interface RecyclerViewClickListener{
         void onItemClick(View view, int position);
     }
 
-    public PromoPageAdapter(Context context, String server, String vendorId, ArrayList<SalesSelectInfo> taglist, int layout, RecyclerViewClickListener listener) {
+    //    public PromoPageAdapter(Context context, String server, String vendorId, ArrayList<SalesSelectInfo> taglist, int layout, RecyclerViewClickListener listener) {
+//        this.mContext = context;
+//        this.mInflater = LayoutInflater.from(context);
+//        this.listTagInfo = taglist;
+//        this.layout = layout;
+//        this.OR2GO_SERVER = server;
+//        this.vendorId = vendorId;
+//        this.mListener = listener;
+//    }
+    public PromoPageAdapter(Context context, String or2goServer, HashMap<String, SalesSelectInfo> storefavlist, int layout, RecyclerViewClickListener listener) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
-        this.listTagInfo = taglist;
+        this.storeFavList = storefavlist;
         this.layout = layout;
-        this.OR2GO_SERVER = server;
-        this.vendorId = vendorId;
+        this.OR2GO_SERVER = or2goServer;
         this.mListener = listener;
-
     }
+
 
     @NonNull
     @Override
@@ -51,7 +64,17 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SalesSelectInfo taginfo = listTagInfo.get(position);
+        Set<String> keys = storeFavList.keySet();
+        String[] array = new String[keys.size()];
+        array = keys.toArray(array);
+        SalesSelectInfo taginfo = storeFavList.get(array[position]);
+        vendorId = array[position];
+//        SalesSelectInfo taginfo = storeFavList.get(storeFavList.keySet());
+//        System.out.println(taginfo.getName());
+//        if (storeFavList.get(storeFavList.keySet()).equals(taginfo)) {
+//            vendorId = "OD00000030";
+//        }
+//        SalesSelectInfo taginfo = listTagInfo.get(position);
         holder.productimg.setScaleType(ImageView.ScaleType.FIT_XY);
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.blankitem)
@@ -104,7 +127,7 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
 
     @Override
     public int getItemCount() {
-        int size = listTagInfo.size();
+        int size = storeFavList.size();
         return size > 5 ? 5 : size;
     }
 
