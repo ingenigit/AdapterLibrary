@@ -288,12 +288,12 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
                 oritem.mSKUSelectId = skuinfo.mSKUId;
 
-//                if(oritem.isInventoryControl() && (skuinfo.mStockStatus == 0)) {
-//                    holder.linearLayoutOutofStock.setVisibility(View.VISIBLE);
-//                    holder.cardViewAdd.setEnabled(false);
-//                    holder.prodimg.setEnabled(false);
-//                }
-//                else
+                if(oritem.isInventoryControl() && (skuinfo.mStockStatus == 0)) {
+                    holder.linearLayoutOutofStock.setVisibility(View.VISIBLE);
+                    holder.cardViewAdd.setEnabled(false);
+                    holder.prodimg.setEnabled(false);
+                }
+                else
                     holder.linearLayoutOutofStock.setVisibility(View.GONE);
 
             }
