@@ -48,6 +48,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
     Currency currency = Currency.getInstance("INR");
     UnitManager mUnitMgr = new UnitManager();
     DecimalFormat df = new DecimalFormat("0");
+    Integer invControl;
 
     public interface RecyclerViewClickListener {
 
@@ -136,12 +137,13 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         }
     }
 
-    public SalesSelectItemAdapter(Context context, String server, String vendorId, ArrayList<SalesSelectInfo> itemList, int layout, RecyclerViewClickListener listener)
+    public SalesSelectItemAdapter(Context context, String server, String vendorId, Integer invControl, ArrayList<SalesSelectInfo> itemList, int layout, RecyclerViewClickListener listener)
     {
         this.mContext = context;
         this.mOrderItemList = itemList;
         this.layout = layout;
         this.OR2GO_SERVER = server;
+        this.invControl = invControl;
         this.vendorId = vendorId;
         this.mListener = listener;
 
@@ -289,7 +291,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                 oritem.mSKUSelectId = skuinfo.mSKUId;
 
 //                if(oritem.isInventoryControl() && (skuinfo.mStockStatus == 0)) {
-                if(oritem.isInventoryControl()) {
+                if(invControl != 0) {
 //                    holder.linearLayoutOutofStock.setVisibility(View.VISIBLE);
 //                    holder.cardViewAdd.setEnabled(false);
                     holder.cardViewAdd.setVisibility(View.GONE);
