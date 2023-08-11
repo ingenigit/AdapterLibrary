@@ -108,4 +108,6 @@
     <item name="cardViewAddItem" type="id" />
     <item name="outofstockLayout" type="id" />
     <item name="locality" type="id" />
+    <item name="showStockAvailable" type="id" />
+    <item name="proOutOfStock" type="id" />
 </resources>

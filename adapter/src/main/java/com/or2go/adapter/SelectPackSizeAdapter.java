@@ -1,6 +1,8 @@
 package com.or2go.adapter;
 
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,16 +29,18 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
     ArrayList<ProductSKU> productSKUS;
     SalesSelectInfo mOrderItemList;
     Currency currency = Currency.getInstance("INR");
-    RecyclerViewItemClickListener recyclerViewItemClickListener;
+    SelectPackSizeAdapter.RecyclerViewItemClickListener recyclerViewItemClickListener;
     DecimalFormat df = new DecimalFormat("0");
     private int layout;
     private final DecimalFormat decfor = new DecimalFormat("0.00");
     //int mSelectedItem;
     UnitManager mUnitManager= new UnitManager();
+    Integer inventoryControl;
 
-    public SelectPackSizeAdapter(/*ArrayList<ProductPriceInfo> arrayList,*/ ArrayList<ProductSKU> arrayList1, SalesSelectInfo oritem, int layout, RecyclerViewItemClickListener listener) {
+    public SelectPackSizeAdapter(/*ArrayList<ProductPriceInfo> arrayList,*/ ArrayList<ProductSKU> arrayList1, int invControl, SalesSelectInfo oritem, int layout, SelectPackSizeAdapter.RecyclerViewItemClickListener listener) {
         //this.priceInfos = arrayList;
         this.productSKUS = arrayList1;
+        this.inventoryControl = invControl;
         //this.mSelectedItem = selectedPosition;
         this.mOrderItemList = oritem;
         this.layout = layout;
@@ -45,15 +49,16 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SelectPackSizeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(layout, parent, false);
-        return new ViewHolder(v);
+        return new SelectPackSizeAdapter.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectPackSizeAdapter.ViewHolder holder, int position) {
         //ProductPriceInfo packInfo = priceInfos.get(position);
+
         /*if (packInfo.mPriceId == mSelectedItem){
             holder.relativeLayout.setBackgroundResource(R.drawable.highlight_select_bg);
         }else{
@@ -64,6 +69,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         ProductSKU skuinfo = productSKUS.get(position);
         Float fQnty= mOrderItemList.mapQuantity.get(skuinfo.mSKUId);
         System.out.println("SelectPackAdapter: priceid="+skuinfo.mSKUId+"  Qnty="+fQnty);
+        System.out.println("SelectPackAdapter: Stock Available = "+ skuinfo.mStockStatus );
         //String totalQTY; //mOrderItemList.getViewQnty();
         if (fQnty==null)
             fQnty=Float.parseFloat("0");
@@ -75,12 +81,32 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
             holder.itemqnty.setText("");
         }else{
             //if (packInfo.mPriceId == mSelectedItem){
-                holder.addItem.setVisibility(View.GONE);
-                holder.itemqnty.setText(fQnty.toString());//(totalQTY);
+            holder.addItem.setVisibility(View.GONE);
+            holder.itemqnty.setText(fQnty.toString());//(totalQTY);
             //}else{
 //                holder.addItem.setVisibility(View.VISIBLE);
 //                holder.itemqnty.setText("");
             //}
+        }
+        if (inventoryControl != 0){
+            if (skuinfo.mStockStatus <= 0) {
+                holder.proOutStock.setVisibility(View.VISIBLE);
+                holder.showStock.setVisibility(View.GONE);
+                holder.addItem.setEnabled(false);
+
+            }else {
+                holder.proOutStock.setVisibility(View.GONE);
+                holder.showStock.setVisibility(View.VISIBLE);
+                holder.showStock.setText(skuinfo.mStockStatus + " left");
+                GradientDrawable drawable = (GradientDrawable)holder.showStock.getBackground();
+                if (skuinfo.mStockStatus > 10)
+                    drawable.setStroke ((int) 1.5, Color.GREEN);
+                else
+                    drawable.setStroke ((int) 1.5, Color.RED);
+            }
+        }else{
+            holder.proOutStock.setVisibility(View.GONE);
+            holder.showStock.setVisibility(View.GONE);
         }
 
 
@@ -153,6 +179,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
             System.out.println(amk);
         }else{
             System.out.println("sorry");
+            holder.textViewPerQty.setVisibility(View.GONE);
         }
         holder.textViewMRP.setPaintFlags(holder.textViewMRP.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
@@ -166,12 +193,14 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         LinearLayout linearLayout;
         RelativeLayout relativeLayout;
         TextView textViewMRP, textViewSP, textViewDic, textViewQty, textViewPerQty;
-        TextView itemqnty;
+        TextView itemqnty, showStock, proOutStock;
         Button addItem;
         MaterialButton itemAdd, itemDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.selectedOne);
+            showStock = (TextView) itemView.findViewById(R.id.showStockAvailable);
+            proOutStock = (TextView) itemView.findViewById(R.id.proOutOfStock);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.showQtyWant);
             textViewMRP = (TextView) itemView.findViewById(R.id.tv_mrp);
             textViewSP = (TextView) itemView.findViewById(R.id.tv_sp);
