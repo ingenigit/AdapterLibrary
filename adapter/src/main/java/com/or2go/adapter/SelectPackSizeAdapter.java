@@ -97,6 +97,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
             }else {
                 holder.proOutStock.setVisibility(View.GONE);
                 holder.showStock.setVisibility(View.VISIBLE);
+                holder.addItem.setEnabled(true);
                 holder.showStock.setText(skuinfo.mStockStatus + " left");
                 GradientDrawable drawable = (GradientDrawable)holder.showStock.getBackground();
                 if (skuinfo.mStockStatus > 10)
