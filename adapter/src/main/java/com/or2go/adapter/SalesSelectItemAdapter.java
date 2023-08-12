@@ -401,8 +401,10 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                 holder.ttags[i].setText(ttag);
             }
         }
-        else
-            System.out.println("Price list is null for:"+oritem.getName());
+        else {
+            notifyItemInserted(mOrderItemList.size() - 1);
+            System.out.println("Price list is null for:" + oritem.getName());
+        }
     }
 
     public String sendFloatValue(String value){
