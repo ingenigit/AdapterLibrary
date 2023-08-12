@@ -106,8 +106,8 @@
     <item name="cardViewItemAdd" type="id" />
     <item name="cardViewItemDec" type="id" />
     <item name="cardViewAddItem" type="id" />
-    <item name="outofstockLayout" type="id" />
     <item name="locality" type="id" />
     <item name="showStockAvailable" type="id" />
     <item name="proOutOfStock" type="id" />
+    <item name="buttonHolder" type="id" />
 </resources>

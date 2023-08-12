@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +75,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         public TextView[]  ttags = new TextView[3];//tag1, tag2, tag3;
 
         public CardView cardView;
-        LinearLayout linearLayoutOutofStock;
+        RelativeLayout relativeLayoutBtnHolder;
 
         public SSViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
@@ -94,8 +95,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             //multiunits = (Spinner) view.findViewById(R.id.multiunit);
             //thumbnail = (ImageView) view.findViewById(R.id.ic_itemdetail);
 
+            relativeLayoutBtnHolder = (RelativeLayout) view.findViewById(R.id.buttonHolder);
             cardView = (CardView) view.findViewById(R.id.card_view);
-            linearLayoutOutofStock = (LinearLayout) view.findViewById(R.id.outofstockLayout);
             //itemedit = (ImageView)  view.findViewById(R.id.itemedit);
             cardViewInc = (CardView) view.findViewById(R.id.cardViewItemAdd) ;
             cardViewDec = (CardView) view.findViewById(R.id.cardViewItemDec) ;
@@ -292,16 +293,13 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
 //                if(oritem.isInventoryControl() && (skuinfo.mStockStatus == 0)) {
                 if(invControl != 0) {
-//                    holder.linearLayoutOutofStock.setVisibility(View.VISIBLE);
+                    System.out.println("Enter inside inventory Control");
 //                    holder.cardViewAdd.setEnabled(false);
-                    holder.cardViewAdd.setVisibility(View.GONE);
+                    holder.relativeLayoutBtnHolder.setVisibility(View.GONE);
 //                    holder.prodimg.setEnabled(false);
                 }
                 else
-                    holder.cardViewAdd.setVisibility(View.VISIBLE);
-
-                holder.linearLayoutOutofStock.setVisibility(View.GONE);
-
+                    holder.relativeLayoutBtnHolder.setVisibility(View.VISIBLE);
             }
             else
             {
