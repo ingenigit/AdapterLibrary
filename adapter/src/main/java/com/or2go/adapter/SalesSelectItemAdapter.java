@@ -181,39 +181,41 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         ///Log.i("SalesSelectItemAdapter", " ItemListSize="+mOrderItemList.size()+ " showeing item pos="+position);
 
         //Currency currency = Currency.getInstance("INR");
+
+        holder.title.setText(oritem.getName());
+        holder.brand.setText(oritem.getBrand());
+        holder.desc.setText(oritem.getDesc());
+
+        //holder.prodimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...
+        //holder.prodimg.setImageUrl(BuildConfig.OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg", mImageLoader); //ImgController
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.blankitem)
+                .error(R.drawable.blankitem);
+
+        if(oritem.getProduct().getImagepath() == 0){
+            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName()) + ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName()) + ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.prodimg);
+        }else if (oritem.getProduct().getImagepath() == 1){
+            System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg");
+            Glide.with(mContext)
+                    .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(holder.prodimg);
+        }else
+            Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
+
         ArrayList<ProductSKU> SKUList = oritem.getSKUList();
-        if (SKUList != null){
-            holder.title.setText(oritem.getName());
-            holder.brand.setText(oritem.getBrand());
-            holder.desc.setText(oritem.getDesc());
-            //holder.prodimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...
-            //holder.prodimg.setImageUrl(BuildConfig.OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg", mImageLoader); //ImgController
-            RequestOptions options = new RequestOptions()
-                    .placeholder(R.drawable.blankitem)
-                    .error(R.drawable.blankitem);
-
-            if(oritem.getProduct().getImagepath() == 0){
-                System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName()) + ".jpg");
-                Glide.with(mContext)
-                        .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName()) + ".jpg")
-                        .apply(options)
-                        //.override(200, 200) // resizing
-                        //.fitCenter()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .into(holder.prodimg);
-            }else if (oritem.getProduct().getImagepath() == 1){
-                System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg");
-                Glide.with(mContext)
-                        .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg")
-                        .apply(options)
-                        //.override(200, 200) // resizing
-                        //.fitCenter()
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .into(holder.prodimg);
-            }else
-                Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
-
-            //ArrayList<ProductPriceInfo> pricelist = oritem.getPriceList();
+        //ArrayList<ProductPriceInfo> pricelist = oritem.getPriceList();
+        if (SKUList!= null) {
             if (oritem.isMultiPack() && (SKUList.size() > 1)) {
                 holder.multisel.setVisibility(View.VISIBLE);
                 //holder.unit.setVisibility(View.VISIBLE);
@@ -221,12 +223,14 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                 holder.multisel.setVisibility(View.GONE);
                 ///holder.unit.setVisibility(View.GONE);
             }
-            //if (oritem.isMultiPack())
-            //{
-            //holder.multiunits.setVisibility(View.VISIBLE);
-            //holder.multisel.setVisibility(View.VISIBLE);
+        }
+        //if (oritem.isMultiPack())
+        //{
+        //holder.multiunits.setVisibility(View.VISIBLE);
+        //holder.multisel.setVisibility(View.VISIBLE);
 
 
+        if (SKUList!=null) {
             //ProductPriceInfo packinfo = oritem.getSelectedPriceInfo();//pricelist.get(0);
             ProductSKU skuinfo = oritem.getSelectedSKUInfo();
             //System.out.println("Item info:"+oritem.getName()+" amount: "+packinfo.getPackAmount() + "  unit:"+packinfo.mUnit+"  uname:"+packinfo.getUnitName());
@@ -296,33 +300,28 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             }
             else
                 holder.relativeLayoutBtnHolder.setVisibility(View.VISIBLE);
-            //}
+        }
+        else
+        {
+            System.out.println("Price list is null for:"+oritem.getName());
+        }
+        //}
 
         /*else
             {
-                String smrp = oritem.getMRPStr();
-                //holder.multiunits.setVisibility(View.GONE);
-                holder.multisel.setVisibility(View.GONE);
-
-                holder.price.setText(currency.getSymbol()+oritem.getPrice());
-                if (smrp.isEmpty())
-                    holder.mrp.setText("");
-                else
-                holder.mrp.setText(currency.getSymbol()+smrp);
-                holder.unit.setText(oritem.getViewQnty());
-
+	@@ -322,94 +313,96 @@ public void onBindViewHolder(final SSViewHolder holder, int position) {
             }*/
 
-            holder.mrp.setPaintFlags(holder.mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.mrp.setPaintFlags(holder.mrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            Float fQnty= oritem.mapQuantity.get(oritem.mSKUSelectId);
-            if (fQnty==null) fQnty=Float.parseFloat("0");
-            //if (!oritem.isQntyEmpty())
-            if (fQnty!=0){
+        Float fQnty= oritem.mapQuantity.get(oritem.mSKUSelectId);
+        if (fQnty==null) fQnty=Float.parseFloat("0");
+        //if (!oritem.isQntyEmpty())
+        if (fQnty!=0){
 
-                holder.cardViewAdd.setVisibility(View.GONE);
-                holder.linearLayoutIncDecHolder.setVisibility(View.VISIBLE);
-                holder.qnty.setText(String.valueOf(Math.round(fQnty)));//oritem.getViewQnty());
+            holder.cardViewAdd.setVisibility(View.GONE);
+            holder.linearLayoutIncDecHolder.setVisibility(View.VISIBLE);
+            holder.qnty.setText(String.valueOf(Math.round(fQnty)));//oritem.getViewQnty());
             /*
             if (oritem.getPriceUnit() == GPOS_PROD_UNIT_PC)
                 holder.qnty.setText(oritem.getQnty().toString());
@@ -330,80 +329,75 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                 holder.qnty.setText(oritem.getQnty().toString()+mUnitMgr.getUnitName(oritem.getOrderUnit()));
                 */
 
-            }
-            else {
-                holder.qnty.setText("");
-                holder.cardViewAdd.setVisibility(View.VISIBLE);
-                holder.linearLayoutIncDecHolder.setVisibility(View.GONE);
-            }
+        }
+        else {
+            holder.qnty.setText("");
+            holder.cardViewAdd.setVisibility(View.VISIBLE);
+            holder.linearLayoutIncDecHolder.setVisibility(View.GONE);
+        }
 
 //        if(!oritem.isInventoryControl())
 //            holder.stocksts.setVisibility(View.GONE);
 
-            if (oritem.mFoodType == OR2GO_PRODUCT_TAG_FOOD_VEG)
-            {holder.foodtag.setVisibility(View.VISIBLE);
-                holder.foodtag.setImageResource(R.drawable.veg_24);}
-            else if (oritem.mFoodType == OR2GO_PRODUCT_TAG_FOOD_NONVEG)
-            {
-                holder.foodtag.setVisibility(View.VISIBLE);
-                holder.foodtag.setImageResource(R.drawable.non_veg_24);
-            }
-            else
-            {
-                holder.foodtag.setVisibility(View.GONE);
-            }
+        if (oritem.mFoodType == OR2GO_PRODUCT_TAG_FOOD_VEG)
+        {holder.foodtag.setVisibility(View.VISIBLE);
+            holder.foodtag.setImageResource(R.drawable.veg_24);}
+        else if (oritem.mFoodType == OR2GO_PRODUCT_TAG_FOOD_NONVEG)
+        {
+            holder.foodtag.setVisibility(View.VISIBLE);
+            holder.foodtag.setImageResource(R.drawable.non_veg_24);
+        }
+        else
+        {
+            holder.foodtag.setVisibility(View.GONE);
+        }
 
-            int vtagcnt = oritem.mVisualTags.size();
-            //int curtagno=0;
-            if (vtagcnt > 4) vtagcnt = 4;
-            for(int i=0;i<vtagcnt;i++)
-            {
-                String vtag =  oritem.mVisualTags.get(i);
-                //System.out.println("Product "+ oritem.getName()+" visual tag:"+vtag);
-                if(vtag.equals("New")) {
-                    holder.vtags[i].setVisibility(View.VISIBLE);
-                    holder.vtags[i].setImageResource(R.drawable.ic_item_new);
-                }
-                else if(vtag.equals("Best Seller")) {
-                    holder.vtags[i].setVisibility(View.VISIBLE);
-                    holder.vtags[i].setImageResource(R.drawable.ic_item_bestseller);
-                }
-                else if(vtag.equals("Must Try")) {
-                    holder.vtags[i].setVisibility(View.VISIBLE);
-                    holder.vtags[i].setImageResource(R.drawable.ic_item_recomended);
-                }
-                else if(vtag.equals("Popular")) {
-                    holder.vtags[i].setVisibility(View.VISIBLE);
-                    holder.vtags[i].setImageResource(R.drawable.ic_item_popular);
-                }
-                else if(vtag.equals("On Sale")) {
-                    holder.vtags[i].setVisibility(View.VISIBLE);
-                    holder.vtags[i].setImageResource(R.drawable.ic_item_discount);
-                }
+        int vtagcnt = oritem.mVisualTags.size();
+        //int curtagno=0;
+        if (vtagcnt > 4) vtagcnt = 4;
+        for(int i=0;i<vtagcnt;i++)
+        {
+            String vtag =  oritem.mVisualTags.get(i);
+            //System.out.println("Product "+ oritem.getName()+" visual tag:"+vtag);
+            if(vtag.equals("New")) {
+                holder.vtags[i].setVisibility(View.VISIBLE);
+                holder.vtags[i].setImageResource(R.drawable.ic_item_new);
             }
-
-            if(vtagcnt<4)
-            {
-                int blankvtagcnt = 4-vtagcnt;
-                for(int j =0; j < blankvtagcnt; j++)
-                {
-                    holder.vtags[4-j-1].setVisibility(View.GONE);
-                }
+            else if(vtag.equals("Best Seller")) {
+                holder.vtags[i].setVisibility(View.VISIBLE);
+                holder.vtags[i].setImageResource(R.drawable.ic_item_bestseller);
             }
-
-            holder.ttags[0].setText("");
-            holder.ttags[1].setText("");
-            holder.ttags[2].setText("");
-            int ttagcnt = oritem.mTextTags.size();
-            for(int i=0;i<ttagcnt;i++)
-            {
-                String ttag =  oritem.mTextTags.get(i);
-                holder.ttags[i].setText(ttag);
+            else if(vtag.equals("Must Try")) {
+                holder.vtags[i].setVisibility(View.VISIBLE);
+                holder.vtags[i].setImageResource(R.drawable.ic_item_recomended);
+            }
+            else if(vtag.equals("Popular")) {
+                holder.vtags[i].setVisibility(View.VISIBLE);
+                holder.vtags[i].setImageResource(R.drawable.ic_item_popular);
+            }
+            else if(vtag.equals("On Sale")) {
+                holder.vtags[i].setVisibility(View.VISIBLE);
+                holder.vtags[i].setImageResource(R.drawable.ic_item_discount);
             }
         }
-        else {
-            notifyItemInserted(mOrderItemList.size() - 1);
-            System.out.println("Price list is null for:" + oritem.getName());
+
+        if(vtagcnt<4)
+        {
+            int blankvtagcnt = 4-vtagcnt;
+            for(int j =0; j < blankvtagcnt; j++)
+            {
+                holder.vtags[4-j-1].setVisibility(View.GONE);
+            }
+        }
+
+        holder.ttags[0].setText("");
+        holder.ttags[1].setText("");
+        holder.ttags[2].setText("");
+        int ttagcnt = oritem.mTextTags.size();
+        for(int i=0;i<ttagcnt;i++)
+        {
+            String ttag =  oritem.mTextTags.get(i);
+            holder.ttags[i].setText(ttag);
         }
     }
 
