@@ -110,4 +110,10 @@
     <item name="showStockAvailable" type="id" />
     <item name="proOutOfStock" type="id" />
     <item name="buttonHolder" type="id" />
+    <item name="textViewColor" type="id" />
+    <item name="spaceColor" type="id" />
+    <item name="textViewSize" type="id" />
+    <item name="spaceSize" type="id" />
+    <item name="spaceUnit" type="id" />
+    <item name="tv_ProSize" type="id" />
 </resources>

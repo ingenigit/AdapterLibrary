@@ -71,6 +71,23 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         System.out.println("SelectPackAdapter: priceid="+skuinfo.mSKUId+"  Qnty="+fQnty);
         System.out.println("SelectPackAdapter: Stock Available = "+ skuinfo.mStockStatus );
         //String totalQTY; //mOrderItemList.getViewQnty();
+
+        if (skuinfo.mColor.equals("")) {
+            holder.textViewColor.setVisibility(View.GONE);
+        }else {
+            holder.textViewColor.setVisibility(View.VISIBLE);
+            String text = "Color: " + skuinfo.mColor;
+            String[] words = text.split(" ");
+            words[1] = words[1].toUpperCase();
+            holder.textViewColor.setText(String.join(" ", words));
+        }
+        if (skuinfo.mSize.equals("")){
+            holder.textViewSize.setVisibility(View.GONE);
+        }else{
+            holder.textViewSize.setVisibility(View.VISIBLE);
+            holder.textViewSize.setText("Size: " + skuinfo.mSize);
+        }
+
         if (fQnty==null)
             fQnty=Float.parseFloat("0");
         //else
@@ -197,12 +214,15 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         TextView itemqnty, showStock, proOutStock;
         Button addItem;
         MaterialButton itemAdd, itemDelete;
+        TextView textViewColor, textViewSize;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             relativeLayout = (RelativeLayout) itemView.findViewById(R.id.selectedOne);
             showStock = (TextView) itemView.findViewById(R.id.showStockAvailable);
             proOutStock = (TextView) itemView.findViewById(R.id.proOutOfStock);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.showQtyWant);
+            textViewColor = (TextView) itemView.findViewById(R.id.textViewColor);
+            textViewSize = (TextView) itemView.findViewById(R.id.tv_ProSize);
             textViewMRP = (TextView) itemView.findViewById(R.id.tv_mrp);
             textViewSP = (TextView) itemView.findViewById(R.id.tv_sp);
             textViewDic = (TextView) itemView.findViewById(R.id.tv_dic);
