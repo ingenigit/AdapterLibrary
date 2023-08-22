@@ -280,10 +280,10 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
             }
 
-            if ((skuinfo.mUnit==GPOS_PROD_UNIT_PC) || (skuinfo.mUnit==GPOS_PROD_UNIT_PLT))
-                holder.unit.setVisibility(View.GONE);
-            else
-                holder.unit.setVisibility(View.VISIBLE);
+//            if ((skuinfo.mUnit==GPOS_PROD_UNIT_PC) || (skuinfo.mUnit==GPOS_PROD_UNIT_PLT))
+//                holder.unit.setVisibility(View.GONE);
+//            else
+//                holder.unit.setVisibility(View.VISIBLE);
             if (sendFloatValue(skuinfo.mAmount.toString()).equals("0.0"))  ///???
                 holder.unit.setText(Math.round(skuinfo.mAmount) + mUnitMgr.getUnitName(skuinfo.mUnit));
             else
