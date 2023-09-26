@@ -36,12 +36,15 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
     //int mSelectedItem;
     UnitManager mUnitManager= new UnitManager();
     Integer inventoryControl;
-
-    public SelectPackSizeAdapter(/*ArrayList<ProductPriceInfo> arrayList,*/ ArrayList<ProductSKU> arrayList1, int invControl, SalesSelectInfo oritem, int layout, SelectPackSizeAdapter.RecyclerViewItemClickListener listener) {
+    String storeID, cartStoreID;
+    public SelectPackSizeAdapter(/*ArrayList<ProductPriceInfo> arrayList,*/ ArrayList<ProductSKU> arrayList1, int invControl, SalesSelectInfo oritem,
+                                                                            String storeId, String crtStoreID, int layout, SelectPackSizeAdapter.RecyclerViewItemClickListener listener) {
         //this.priceInfos = arrayList;
         this.productSKUS = arrayList1;
         this.inventoryControl = invControl;
         //this.mSelectedItem = selectedPosition;
+        this.storeID = storeId;
+        this.cartStoreID = crtStoreID;
         this.mOrderItemList = oritem;
         this.layout = layout;
         this.recyclerViewItemClickListener = listener;
@@ -93,10 +96,7 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
         //else
         //    totalQTY=fQnty.toString();
         //if (Integer.parseInt(totalQTY) == 0)
-        if (fQnty==0){
-            holder.addItem.setVisibility(View.VISIBLE);
-            holder.itemqnty.setText("");
-        }else{
+        if (fQnty!=0 && (cartStoreID.equals(storeID))){
             //if (packInfo.mPriceId == mSelectedItem){
             holder.addItem.setVisibility(View.GONE);
             holder.itemqnty.setText(fQnty.toString());//(totalQTY);
@@ -104,6 +104,9 @@ public class SelectPackSizeAdapter extends RecyclerView.Adapter<SelectPackSizeAd
 //                holder.addItem.setVisibility(View.VISIBLE);
 //                holder.itemqnty.setText("");
             //}
+        }else{
+            holder.addItem.setVisibility(View.VISIBLE);
+            holder.itemqnty.setText("");
         }
         if (inventoryControl != 0){
             if (skuinfo.mStockStatus <= 0) {
