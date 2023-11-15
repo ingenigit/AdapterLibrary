@@ -45,7 +45,7 @@ public class AllStoreListAdapter extends RecyclerView.Adapter<AllStoreListAdapte
         String currentLocation = cLocation.getLatitude()+","+ cLocation.getLongitude();
         getDistance getDistance = new getDistance() {
             @Override
-            public void GetTotalDistance(String distance, Double getlat, Double getlon, String ftime, String stime) {
+            public void GetTotalDistance(String distance, String getlat, String getlon, String ftime, String stime) {
                 holder.textViewdistance.setText(distance);
             }
         };

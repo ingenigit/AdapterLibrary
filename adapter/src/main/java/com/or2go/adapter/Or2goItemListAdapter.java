@@ -42,7 +42,10 @@ public class Or2goItemListAdapter extends RecyclerView.Adapter<Or2goItemListAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderItem item = mItemList.get(position);
-        holder.itemname.setText(item.getName() + " [" + item.getOrderUnit()+ item.getUnitName()+ "]");
+        if (item.getOrderUnit() == 0 && item.getUnitName().equals(""))
+            holder.itemname.setText(item.getName());
+        else
+            holder.itemname.setText(item.getName() + " [" + item.getOrderUnit()+ item.getUnitName()+ "]");
         if (sendFloatValue(item.getItemTotal()).equals("0.0"))
             holder.itemtotal.setText(currency.getSymbol()+(int) item.getItemTotal());//item.getPrice());
         else
