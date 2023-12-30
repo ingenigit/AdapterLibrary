@@ -116,4 +116,5 @@
     <item name="spaceSize" type="id" />
     <item name="spaceUnit" type="id" />
     <item name="tv_ProSize" type="id" />
+    <item name="txt_unavailable" type="id" />
 </resources>

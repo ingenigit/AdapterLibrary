@@ -61,7 +61,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
 
         private RecyclerViewClickListener mListener;
 
-        public TextView title, price, qnty, desc, unit, mrp, brand, disc;
+        public TextView title, price, qnty, desc, unit, mrp, brand, disc, unavil;
         //Spinner multiunits;
         public ImageView multisel;
         public ImageView prodimg;//public NetworkImageView prodimg;
@@ -87,6 +87,7 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
             unit = (TextView) view.findViewById(R.id.itempackunit);
             mrp = (TextView) view.findViewById(R.id.itemmaxprice);
             disc = (TextView) view.findViewById(R.id.itemdiscval);
+            unavil = (TextView) view.findViewById(R.id.txt_unavailable);
             //disc.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
 
             prodimg = (ImageView ) view.findViewById(R.id.gimgprodprop);//(NetworkImageView ) view.findViewById(R.id.imgprodprop);
@@ -185,7 +186,10 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         holder.title.setText(oritem.getName());
         holder.brand.setText(oritem.getBrand());
         holder.desc.setText(oritem.getDesc());
-
+        if (oritem.getProduct().getAvail() == 2) {
+            holder.unavil.setVisibility(View.VISIBLE);
+            holder.cardViewAdd.setEnabled(false);
+        }
         //holder.prodimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...
         //holder.prodimg.setImageUrl(BuildConfig.OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg", mImageLoader); //ImgController
         RequestOptions options = new RequestOptions()
