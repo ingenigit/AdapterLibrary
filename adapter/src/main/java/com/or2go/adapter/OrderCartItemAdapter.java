@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.or2go.core.BaseCartItem;
 import com.or2go.core.CartItem;
+import com.or2go.core.CartItemView;
 import com.or2go.core.ProductPriceInfo;
 import com.or2go.core.ProductSKU;
 import com.or2go.core.UnitManager;
@@ -26,7 +28,7 @@ import java.util.Currency;
 public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdapter.CartItemViewHolder>{
     private Context mContext;
     //private List<Album> albumList;
-    ArrayList<CartItem> mItemList;
+    ArrayList<CartItemView> mItemList;
 
     Currency currency = Currency.getInstance("INR");
     UnitManager mUnitMgr = new UnitManager();
@@ -102,7 +104,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
 //        }
     }
 
-    public OrderCartItemAdapter(Context context, String server, String storeId, Integer invControl, ArrayList<CartItem> itemList, int layout, RecyclerViewClickListener listener)
+    public OrderCartItemAdapter(Context context, String server, String storeId, Integer invControl, ArrayList<CartItemView> itemList, int layout, RecyclerViewClickListener listener)
     {
         this.mContext = context;
         this.mItemList = itemList;
@@ -125,7 +127,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
     @Override
     public void onBindViewHolder(final CartItemViewHolder holder, int position) {
         final int selpos = position;
-        CartItem item = mItemList.get(position);
+        CartItemView item = mItemList.get(position);
         //holder.itemimage.setImageBitmap(item.getImage());
         //holder.itemimage.setImageBitmap(Bitmap.createScaledBitmap(item.getImage(), 96, 96, false));
 
@@ -138,10 +140,10 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
 //        holder.cardView.setAnimation(animation);
 //        holder.linearLayoutCartView.setAnimation(animation);
         //end
-        if(sendFloatValue(item.getItemTotal()).equals("0.0"))
-            holder.itemprice.setText(currency.getSymbol()+(int) item.getItemTotal());
+        if(sendFloatValue(item.getItemTotal(item.getBCI())).equals("0.0"))
+            holder.itemprice.setText(currency.getSymbol()+(int) item.getItemTotal(item.getBCI()));
         else
-            holder.itemprice.setText(currency.getSymbol() + item.getItemTotal());
+            holder.itemprice.setText(currency.getSymbol() + item.getItemTotal(item.getBCI()));
 
         //load image
         holder.itemproImg.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -173,13 +175,13 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
             ///pkinfo.dumpInfo();
             if (item.isWholeItem()) {
                 holder.itemname.setText(item.getName());
-                holder.itemquantity.setText(currency.getSymbol() + item.itemPrice.intValue() + " x " +item.getQnty());
+                holder.itemquantity.setText(currency.getSymbol() + item.getPrice().intValue() + " x " +item.getQnty());
             }
             else {
-                if (sendFloatValue(item.itemPrice).equals("0.0")){
-                    holder.itemquantity.setText(currency.getSymbol() + item.itemPrice.intValue() + " x " + (int) Float.parseFloat(item.getQnty()));
+                if (sendFloatValue(item.getPrice()).equals("0.0")){
+                    holder.itemquantity.setText(currency.getSymbol() + item.getPrice().intValue() + " x " + (int) Float.parseFloat(item.getQnty()));
                 }else{
-                    holder.itemquantity.setText(currency.getSymbol() + item.itemPrice + " x " + (int) Float.parseFloat(item.getQnty()));
+                    holder.itemquantity.setText(currency.getSymbol() + item.getPrice() + " x " + (int) Float.parseFloat(item.getQnty()));
                 }
                 holder.itemname.setText(item.getName() + " [" + skuinfo.mAmount.intValue() + mUnitMgr.getUnitName(skuinfo.mUnit) + "]");
             }
