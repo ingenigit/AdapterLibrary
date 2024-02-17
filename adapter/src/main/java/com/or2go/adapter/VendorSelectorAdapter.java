@@ -123,7 +123,6 @@ public class VendorSelectorAdapter extends RecyclerView.Adapter<VendorSelectorAd
                 //.override(200, 200) // resizing
                 //.fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(holder.logo);
 
         //Float ratingval = Float.valueOf("4.5");

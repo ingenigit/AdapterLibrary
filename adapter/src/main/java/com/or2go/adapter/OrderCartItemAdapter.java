@@ -156,7 +156,6 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
                     .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(item.getBrandName(), item.getName()) + ".jpg")
                     .apply(options)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .into(holder.itemproImg);
         }else if (item.getImagePath() == 1){
             System.out.println(OR2GO_SERVER+"vendorprodimage/"+StoreID+"/"+item.getId()+ ".jpg");
@@ -164,7 +163,6 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
                     .load(OR2GO_SERVER+"vendorprodimage/"+StoreID+"/"+item.getId()+ ".jpg")
                     .apply(options)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
                     .into(holder.itemproImg);
         }else
             Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
