@@ -203,7 +203,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                     .apply(options)
                     //.override(200, 200) // resizing
                     //.fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(holder.prodimg);
         }else if (oritem.getProduct().getImagepath() == 1){
             System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+oritem.getId()+ ".jpg");
@@ -212,7 +213,8 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
                     .apply(options)
                     //.override(200, 200) // resizing
                     //.fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(holder.prodimg);
         }else
             Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();

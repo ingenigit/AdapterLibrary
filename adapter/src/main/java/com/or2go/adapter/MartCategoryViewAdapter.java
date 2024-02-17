@@ -96,7 +96,8 @@ public class MartCategoryViewAdapter extends RecyclerView.Adapter<MartCategoryVi
                 .apply(options)
                 //.override(200, 200) // resizing
                 //.fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(holder.catimg);
 
 //        holder.catimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...

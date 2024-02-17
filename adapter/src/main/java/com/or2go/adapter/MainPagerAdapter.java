@@ -63,7 +63,8 @@ public class MainPagerAdapter extends RecyclerView.Adapter<MainPagerAdapter.Main
         Glide.with(mContext)
                 .load(OR2GO_SERVER+"appimage/"+OR2GO_SP_CODE+"/"+mImagePath+"/"+selpos.toString()+".png")
                 .apply(options)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(holder.pagerimg);
     }
 

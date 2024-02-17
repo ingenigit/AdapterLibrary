@@ -87,7 +87,8 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
                     .apply(options)
                     //.override(200, 200) // resizing
                     //.fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(holder.productimg);
         }else if (taginfo.getProduct().getImagepath() == 1){
             System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+taginfo.getId()+ ".jpg");
@@ -96,7 +97,9 @@ public class PromoPageAdapter extends RecyclerView.Adapter<PromoPageAdapter.View
                     .apply(options)
                     //.override(200, 200) // resizing
                     //.fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    //.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(holder.productimg);
         }else
             Toast.makeText(mContext, "No Product Image", Toast.LENGTH_SHORT).show();
