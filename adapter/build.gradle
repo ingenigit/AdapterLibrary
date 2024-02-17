@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.ingenigit:or2goCore:1.2.69'
+    implementation 'com.github.ingenigit:or2goCore:1.2.70'
     implementation 'com.github.ingenigit:DistanceCalculationLibrary:1.0.7'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
