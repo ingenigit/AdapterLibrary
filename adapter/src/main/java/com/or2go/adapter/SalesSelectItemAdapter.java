@@ -2,8 +2,6 @@ package com.or2go.adapter;
 
 import static com.or2go.core.Or2goConstValues.OR2GO_PRODUCT_TAG_FOOD_NONVEG;
 import static com.or2go.core.Or2goConstValues.OR2GO_PRODUCT_TAG_FOOD_VEG;
-import static com.or2go.core.UnitManager.GPOS_PROD_UNIT_PC;
-import static com.or2go.core.UnitManager.GPOS_PROD_UNIT_PLT;
 
 import android.content.Context;
 import android.graphics.Paint;

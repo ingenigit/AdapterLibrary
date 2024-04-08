@@ -45,22 +45,22 @@ public class CouponSelectorAdapter extends RecyclerView.Adapter<CouponSelectorAd
         csViewHolder.mName.setText(discInfo.mdName);
         csViewHolder.mDesc.setText(discInfo.mdDescription);
 
-        Float val = discInfo.mdValue;
+        Float val = discInfo.mdAmount;
         if (discInfo.mdAmntType == DISCOUNT_AMOUNT_TYPE_VALUE)
         {
-            csViewHolder.mInfo.setText("Discount :"+ currency.getSymbol()+val.toString());
+            csViewHolder.mInfo.setText(currency.getSymbol()+val.toString() + " Off");
         }
         else
         {
-            csViewHolder.mInfo.setText("Discount :"+ val.toString()+"%");
+            csViewHolder.mInfo.setText(val.toString()+"%" + " Off");
         }
 
         String discCond="";
-        if ((discInfo.minsaleamnt != null) && (discInfo.minsaleamnt > 0))
-            discCond = "Minimum Amount : "+ currency.getSymbol()+df.format(discInfo.minsaleamnt);
+        if ((discInfo.minordamnt != null) && (discInfo.minordamnt > 0))
+            discCond = "Minimum Amount : "+ currency.getSymbol()+df.format(discInfo.minordamnt);
 
         if ((discInfo.maxdiscamnt != null) && (discInfo.maxdiscamnt > 0))
-            discCond += "   Maximum Discount : "+ currency.getSymbol()+df.format(discInfo.maxdiscamnt);
+            discCond += "Maximum Discount : "+ currency.getSymbol()+df.format(discInfo.maxdiscamnt);
 
         csViewHolder.mCond.setText(discCond);
 
