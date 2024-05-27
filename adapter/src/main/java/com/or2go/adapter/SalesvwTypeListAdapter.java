@@ -18,7 +18,7 @@ public class SalesvwTypeListAdapter extends RecyclerView.Adapter<SalesvwTypeList
     private List<String> list;
     private int layout;
     int mSelectedItem=-1;
-
+    private boolean isLoading;
     private RecyclerViewClickListener mListener;
 
     public class TypeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -54,6 +54,7 @@ public class SalesvwTypeListAdapter extends RecyclerView.Adapter<SalesvwTypeList
         mListener = listener;
         this.layout = layout;
         this.list = horizontalList;
+        this.isLoading = true;
     }
 
     @Override
@@ -79,7 +80,13 @@ public class SalesvwTypeListAdapter extends RecyclerView.Adapter<SalesvwTypeList
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return isLoading ? 0 : list.size();
+    }
+
+    public void updateData(List<String> catList) {
+        this.isLoading = false;
+        this.list = catList;
+        notifyDataSetChanged();
     }
 
     public void setSelectedCategory(int pos)

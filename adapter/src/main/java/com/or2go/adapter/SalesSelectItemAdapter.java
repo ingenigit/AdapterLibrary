@@ -187,6 +187,9 @@ public class SalesSelectItemAdapter extends RecyclerView.Adapter<SalesSelectItem
         if (oritem.getProduct().getAvail() == 2) {
             holder.unavil.setVisibility(View.VISIBLE);
             holder.cardViewAdd.setEnabled(false);
+        }else{
+            holder.unavil.setVisibility(View.GONE);
+            holder.cardViewAdd.setEnabled(true);
         }
         //holder.prodimg.setDefaultImageResId(R.drawable.blankitem); // image for loading...
         //holder.prodimg.setImageUrl(BuildConfig.OR2GO_SERVER+"prodimage/"+prodNameToImagePath(oritem.getBrand(), oritem.getName())+".jpg", mImageLoader); //ImgController
