@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,11 +20,13 @@ public class StoreProductAdapter extends BaseAdapter {
     public Context context;
     private int layout;
     private String OR2GO_SERVER;
+    private String vendorId;
     public ArrayList<SalesSelectInfo> salesItems;
 
-    public StoreProductAdapter(Context context, String server, ArrayList<SalesSelectInfo> salesItems, int layout) {
+    public StoreProductAdapter(Context context, String server, String vendorid, ArrayList<SalesSelectInfo> salesItems, int layout) {
         this.context = context;
         this.OR2GO_SERVER = server;
+        this.vendorId = vendorid;
         this.layout = layout;
         this.salesItems = salesItems;
     }
@@ -35,12 +38,12 @@ public class StoreProductAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return salesItems.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
@@ -66,6 +69,27 @@ public class StoreProductAdapter extends BaseAdapter {
                 //.fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(imageView);
+
+        if(selectInfo.getProduct().getImagepath() == 0){
+            System.out.println(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(selectInfo.getBrand(), selectInfo.getName()) + ".jpg");
+            Glide.with(context)
+                    .load(OR2GO_SERVER+"prodimage/"+prodNameToImagePath(selectInfo.getBrand(), selectInfo.getName()) + ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(imageView);
+        }else if (selectInfo.getProduct().getImagepath() == 1){
+            System.out.println(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+selectInfo.getId()+ ".jpg");
+            Glide.with(context)
+                    .load(OR2GO_SERVER+"vendorprodimage/"+vendorId+"/"+selectInfo.getId()+ ".jpg")
+                    .apply(options)
+                    //.override(200, 200) // resizing
+                    //.fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(imageView);
+        }else
+            Toast.makeText(context, "No Product Image", Toast.LENGTH_SHORT).show();
         return vi;
     }
     private String prodNameToImagePath(String brand, String name) {
