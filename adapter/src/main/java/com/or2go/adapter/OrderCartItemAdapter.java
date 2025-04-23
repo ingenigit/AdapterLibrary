@@ -52,7 +52,7 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
 
         private RecyclerViewClickListener mListener;
 
-        TextView itemname;
+        TextView itemname, itemSkuName, itemType;
         TextView itemprice;
         TextView itemquantity;
         TextView itemstksts;
@@ -71,6 +71,8 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
             super(view);
 
             itemname = (TextView) view.findViewById(R.id.orderitemname);
+            itemSkuName = (TextView)view.findViewById(R.id.orderItemSKUName);
+            itemType = (TextView)view.findViewById(R.id.orderItemTypes);
             itemprice = (TextView) view.findViewById(R.id.orderitemprice);
             itemquantity = (TextView)view.findViewById(R.id.orderitemqnty);
             itemproImg = (ImageView) view.findViewById(R.id.product_Image);
@@ -174,7 +176,6 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
             //holder.itemquantity.setText(item.getQnty() + mUnitMgr.getUnitName(item.getOrderUnit()));
             ///pkinfo.dumpInfo();
             if (item.isWholeItem()) {
-                holder.itemname.setText(item.getName());
                 holder.itemquantity.setText(currency.getSymbol() + item.getPrice().intValue() + " x " +item.getQnty());
             }
             else {
@@ -183,11 +184,16 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
                 }else{
                     holder.itemquantity.setText(currency.getSymbol() + item.getPrice() + " x " + (int) Float.parseFloat(item.getQnty()));
                 }
-                holder.itemname.setText(item.getName() + " [" + skuinfo.mAmount.intValue() + mUnitMgr.getUnitName(skuinfo.mUnit) + "]");
+                //holder.itemname.setText(item.getName() + " [" + skuinfo.mAmount.intValue() + mUnitMgr.getUnitName(skuinfo.mUnit) + "]");
             }
+            holder.itemSkuName.setText(item.getSKUInfo().mName);
+            holder.itemType.setText(item.getSKUInfo().mAmount + mUnitMgr.getUnitName(item.getSKUInfo().mUnit));   
         }
-        else
+       else{
             holder.itemquantity.setText(item.getQnty());
+        }
+        holder.itemname.setText(item.getName()); 
+        
         if ((InvControl > 0))
         {
             Float stkval = item.getCurStock();
@@ -211,7 +217,8 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
         {
             holder.linearLayout.setVisibility(View.GONE);
             holder.itemstksts.setText("");
-            holder.itemstkremove.setVisibility(View.GONE);}
+            holder.itemstkremove.setVisibility(View.GONE);
+        }
 
             /*
         String unit = item.getPriceUnit();
@@ -224,8 +231,8 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
     }
 
     public String sendFloatValue(Float value){
-        Float ss = value;
-        BigDecimal bigDecimal = new BigDecimal(String.valueOf(ss));
+        //Float ss = value;
+        BigDecimal bigDecimal = new BigDecimal(String.valueOf(value));
         int i = bigDecimal.intValue();//180
         String ll = bigDecimal.subtract(new BigDecimal(i)).toPlainString();
         return ll;
@@ -241,9 +248,9 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
     {
         String lname = name.toLowerCase();
         String sname;
-
+        String lbrand;
         if (brand != null && (!brand.isEmpty()) && (!brand.equals("null"))) {
-            String lbrand = brand.toLowerCase();
+            lbrand = brand.toLowerCase();
             if (lname.contains(lbrand))
                 sname=lname;
             else
@@ -251,8 +258,8 @@ public class OrderCartItemAdapter extends RecyclerView.Adapter<OrderCartItemAdap
         }
         else
             sname = lname;
-
-        String bname = sname.replace(" ", "_");
+        
+        lbrand = sname.replace(" ", "_");
         String fname = bname.replace("&", "_");
         String rname = fname.replace(",", "_");
 
